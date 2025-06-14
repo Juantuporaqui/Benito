@@ -1,0 +1,91 @@
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] .details-arrow {
+            transform: rotate(180deg);
+        }
+        #spinner {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .spinner-icon {
+            border-top-color: #3b82f6; /* Blue-500 */
+        }
+        /* Styles for dynamic list items within the details sections */
+        .dynamic-list-item {
+            background-color: #f9fafb; /* Lighter background for items */
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping on small screens */
+            gap: 0.75rem; /* Space between items */
+            align-items: flex-end; /* Align inputs to the bottom */
+            border: 1px solid #e2e8f0; /* Light border */
+        }
+        .dynamic-list-item > div { /* Container for label+input */
+            flex-grow: 1; 
+        }
+        .dynamic-list-item input,
+        .dynamic-list-item textarea {
+            width: 100%; /* Take full width of its flex-grow div */
+            padding: 0.5rem; /* Smaller padding for items */
+            border-radius: 0.375rem; /* Slightly smaller border-radius */
+            border: 1px solid #cbd5e1;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .dynamic-list-item label {
+            display: block; /* Ensure label is on its own line */
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* medium */
+            color: #475569; /* slate-600 */
+            margin-bottom: 0.25rem; /* Small space between label and input */
+        }
+        .dynamic-list-item button {
+            flex-shrink: 0; /* Don't allow button to shrink */
+            padding: 0.375rem 0.75rem; /* Smaller padding for buttons */
+            font-size: 0.75rem; /* text-xs */
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            height: fit-content; /* Adjust button height to fit content */
+            margin-bottom: 0; /* Remove any default margin */
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <!-- Spinner Overlay -->
+    <div id="spinner" class="fixed inset-0 z-50 flex-col items-center justify-center hidden">
+        <div class="spinner-icon w-16 h-16 border-4 border-slate-200 rounded-full animate-spin"></div>
+        <p class="mt-4 text-slate-600 font-semibold">Cargando...</p>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg/1477px-Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg.png" 
+                         alt="Logo CNP" 
+                         class="h-10 w-auto bg-white p-1 rounded-md">
+                    <h1 id="header-title" class="ml-4 text-lg md:text-xl font-semibold">UCRIF · Sistema de Novedades</h1>
+                </div>
+                <button id="back-button" class="hidden bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-4 rounded-lg transition">
+                    &larr; Volver al Menú
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="py-6 md:py-10">
+        <!-- Content will be rendered here by JavaScript -->
+    </main>
+</body>
