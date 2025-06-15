@@ -1,4 +1,4 @@
- <script type="module">
+ <type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -1968,4 +1968,4 @@
         // Initialize the app when the DOM is ready
         document.addEventListener('DOMContentLoaded', init);
 
-    </script>
+    
