@@ -989,6 +989,59 @@ const resetSpecificForm = async (collectionName) => {
     showStatus('', false); // Clear status message
 };
 
+// Resets all fields for the Group 2/3 operation form and optionally
+// reloads the list of existing operations.
+const resetGroup2and3Form = async (fetchOps = true) => {
+    currentDocId = null;
+
+    const textFields = [
+        'codigo', 'anio', 'fecha', 'nombreOperacion', 'descripcionBreve',
+        'fechaInicioOperacion', 'origen', 'tipologiaDelictiva',
+        'dolenciasPreviasYJuzgados', 'diligenciasPolicialesMain',
+        'diligenciasPolicialesDoc', 'oficiosJudiciales', 'documentosAdjuntos',
+        'anotacionesTexto', 'juzgadoInicialField'
+    ];
+    textFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+
+    // Reset year and date if present
+    if (document.getElementById('anio')) {
+        document.getElementById('anio').value = new Date().getFullYear();
+    }
+    if (document.getElementById('fecha')) {
+        document.getElementById('fecha').value = formatDate(new Date());
+    }
+
+    const checkboxes = ['anotacionRelevante', 'anotacionConfidencial'];
+    checkboxes.forEach(id => {
+        const cb = document.getElementById(id);
+        if (cb) cb.checked = false;
+    });
+
+    const containers = [
+        'diligenciasPreviasJuzgadosContainer', 'historicoInhibicionesContainer',
+        'historicoGeneralJuzgadosContainer', 'intervencionesTelefonicasContainer',
+        'entradasYRegistrosContainer', 'solicitudesJudicialesContainer',
+        'colaboracionesContainer', 'detenidosContainer',
+        'detenidosPrevistosContainer', 'otrasPersonasContainer',
+        'chronologyList', 'pendingList'
+    ];
+    containers.forEach(id => {
+        const c = document.getElementById(id);
+        if (c) c.innerHTML = '';
+    });
+
+    // Close all collapsible sections
+    document.querySelectorAll('details').forEach(d => d.open = false);
+
+    if (fetchOps) {
+        await fetchDataForSelect('operaciones', 'opList', 'nombreOperacion', 'anio', currentGroup);
+    }
+    showStatus('', false);
+};
+
 
 /**
  * Renders the comprehensive data entry form for Groups 2 and 3.
