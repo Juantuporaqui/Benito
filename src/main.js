@@ -931,41 +931,97 @@ const renderSpecificGroupForm = async (groupKey) => {
         case 'cecorex':
             formFields = `
                 ${baseFields}
-                <div class="mb-4">
-                    <label for="tipoCoordinacion">Tipo de Coordinación</label>
-                    <input type="text" id="tipoCoordinacion" placeholder="Alerta, Aviso" class="w-full rounded border px-2 py-1">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="turno">Turno</label>
+                        <select id="turno" class="w-full rounded border px-2 py-1">
+                            <option value="">--Seleccione--</option>
+                            <option>Mañana</option>
+                            <option>Tarde</option>
+                            <option>Noche</option>
+                            <option>Día completo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="carnet">Carnet (6 dígitos)</label>
+                        <input type="text" id="carnet" maxlength="6" pattern="\\d{6}" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="funcionario">Funcionario</label>
+                        <input type="text" id="funcionario" class="w-full rounded border px-2 py-1">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label for="incoacciones">Incoacciones</label>
+                        <input type="number" id="incoacciones" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="consultasTelefonicas">Consultas telefónicas</label>
+                        <input type="number" id="consultasTelefonicas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="consultasEquipo">Consultas equipo</label>
+                        <input type="number" id="consultasEquipo" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="diligenciasInforme">Diligencias informe</label>
+                        <input type="number" id="diligenciasInforme" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ciesConcedidos">CIEs concedidos (por nacionalidad)</label>
+                        <input type="text" id="ciesConcedidos" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ciesDenegados">CIEs denegados (por nacionalidad)</label>
+                        <input type="text" id="ciesDenegados" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="menas">MENAs</label>
+                        <input type="number" id="menas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
                 <div class="mb-4">
-                    <label for="datosActuacion">Datos de la Actuación</label>
-                    <textarea id="datosActuacion" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                    <label for="observacionesCecorex">Observaciones / Incidencias</label>
+                    <textarea id="observacionesCecorex" class="w-full rounded border px-2 py-1" rows="2"></textarea>
                 </div>
                 <div class="mb-4">
-                    <label for="resultadoCecorex">Resultado</label>
-                    <textarea id="resultadoCecorex" class="w-full rounded border px-2 py-1" rows="2"></textarea>
+                    <label for="archivoCecorex">Documentos/Imágenes</label>
+                    <input type="file" id="archivoCecorex" multiple class="w-full">
                 </div>
-                <div class="mb-4">
-                    <label for="observacionesCecorex">Observaciones</label>
-                    <textarea id="observacionesCecorex" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                <div class="mb-4 border-t pt-4">
+                    <label for="pendiente"><b>¿Queda alguna tarea pendiente?</b></label>
+                    <select id="pendiente" class="w-full rounded border px-2 py-1">
+                        <option value="">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                    <div id="pendienteDetalles" class="mt-4 hidden">
+                        <label for="pendienteDescripcion">Descripción de la tarea pendiente</label>
+                        <input type="text" id="pendienteDescripcion" maxlength="140" class="w-full rounded border px-2 py-1">
+                        <label for="pendienteFecha" class="mt-2">Fecha límite (alerta)</label>
+                        <input type="date" id="pendienteFecha" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
             `;
-            dynamicAdders = `
-                <h4 class="mt-6 mb-2 font-semibold">Pendientes de Gestión</h4>
-                <ul id="cecorexPendientesList" class="list-disc pl-5 mb-4 max-h-40 overflow-y-auto"></ul>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                    <input type="text" id="cecorexPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                    <input type="date" id="cecorexPendDate" class="rounded border px-2 py-1">
-                    <button onclick="addCecorexPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-            `;
+            dynamicAdders = ``;
             dataMap = {
                 fecha: 'fecha',
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
-                tipoCoordinacion: 'tipoCoordinacion',
-                datosActuacion: 'datosActuacion',
-                resultado: 'resultadoCecorex',
+                turno: 'turno',
+                carnet: 'carnet',
+                funcionario: 'funcionario',
+                incoacciones: 'incoacciones',
+                consultasTelefonicas: 'consultasTelefonicas',
+                consultasEquipo: 'consultasEquipo',
+                diligenciasInforme: 'diligenciasInforme',
+                ciesConcedidos: 'ciesConcedidos',
+                ciesDenegados: 'ciesDenegados',
+                menas: 'menas',
                 observaciones: 'observacionesCecorex',
-                cecorexPendientes: getCecorexPendientes
+                pendiente: 'pendiente',
+                pendienteDescripcion: 'pendienteDescripcion',
+                pendienteFecha: 'pendienteFecha'
             };
             break;
 
@@ -994,7 +1050,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 </div>
             </div>`;
 
-    if (groupKey === 'puerto') {
+    if (groupKey === 'puerto' || groupKey === 'cecorex') {
         searchSection = `
             <div class="bg-white p-4 rounded shadow border-blue-300 border">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -1023,15 +1079,15 @@ const renderSpecificGroupForm = async (groupKey) => {
 
     // Event listeners
     document.getElementById('newDocBtn').addEventListener('click', () => resetSpecificForm(colName));
-if (groupKey === 'puerto') {
+    if (groupKey === 'puerto' || groupKey === 'cecorex') {
         document.getElementById('loadDateBtn').addEventListener('click', () => {
             const dt = document.getElementById('searchDate').value;
             loadDocByDate(colName, dataMap, dt);
         });
     } else {
         document.getElementById('loadDocBtn').addEventListener('click', () => loadSpecificDoc(colName, dataMap));
-    }    document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, dataMap));
-
+  }
+    document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, dataMap));
     await resetSpecificForm(colName);
 };
 
