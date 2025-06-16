@@ -644,7 +644,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <input type="text" id="impNombre" placeholder="Nombre" class="rounded border px-2 py-1">
                     <input type="text" id="impNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                     <input type="date" id="impFechaExp" class="rounded border px-2 py-1">
-                    <button onclick="addPersonaImplicada()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addPersonaImplicada()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
                 <div class="mb-4">
                     <label for="incidenciasResistencias">Incidencias/Resistencias</label>
@@ -661,7 +661,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="gpPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="gpPendDate" class="rounded border px-2 py-1">
-                    <button onclick="addGrupoPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addGrupoPendiente()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -693,7 +693,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="impG4Nombre" placeholder="Nombre" class="rounded border px-2 py-1">
                     <input type="text" id="impG4Rol" placeholder="Rol" class="rounded border px-2 py-1">
-                    <button onclick="addPersonaImplicadaG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addPersonaImplicadaG4()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
                 <div class="mb-4">
                     <label for="observacionesAnotacionesG4">Observaciones</label>
@@ -706,7 +706,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="gp4PendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="gp4PendDate" class="rounded border px-2 py-1">
-                    <button onclick="addGrupo4Pendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addGrupo4Pendiente()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -885,7 +885,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="ciePendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="ciePendDate" class="rounded border px-2 py-1">
-                    <button onclick="addCIEPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addCIEPendiente()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -927,7 +927,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="gestionPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="gestionPendDate" class="rounded border px-2 py-1">
-                    <button onclick="addGestionPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addGestionPendiente()" class="btn-police px-4 py-2 rounded">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -1050,8 +1050,8 @@ const renderSpecificGroupForm = async (groupKey) => {
                         <label>Buscar registro existente</label>
                         <select id="docList" class="w-full rounded border px-2 py-1"></select>
                     </div>
-                    <button id="loadDocBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Cargar</button>
-                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+                    <button id="loadDocBtn" class="btn-police px-4 py-2 rounded">Cargar</button>
+                    <button id="newDocBtn" class="btn-police px-4 py-2 rounded">Nuevo</button>                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
                 </div>
             </div>
 
@@ -1072,8 +1072,8 @@ const renderSpecificGroupForm = async (groupKey) => {
                         <label>Fecha (grabar / buscar)</label>
                         <input type="date" id="searchDate" class="w-full rounded border px-2 py-1">
                     </div>
-                    <button id="loadDateBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Buscar</button>
-                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+                   <button id="loadDateBtn" class="btn-police px-4 py-2 rounded">Buscar</button>
+                    <button id="newDocBtn" class="btn-police px-4 py-2 rounded">Nuevo</button>                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
                 </div>
             </div>`;
     }
@@ -1383,8 +1383,8 @@ const renderGroup2and3Form = async (groupKey) => {
                     <label>Buscar operación existente</label>
                     <select id="opList" class="w-full rounded border px-2 py-1"></select>
                 </div>
-                <button id="loadOpBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Cargar</button>
-                <button id="newOpBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nueva</button>
+                               <button id="loadOpBtn" class="btn-police px-4 py-2 rounded">Cargar</button>
+                <button id="newOpBtn" class="btn-police px-4 py-2 rounded">Nueva</button>
             </div>
         </div>
 
@@ -1451,7 +1451,7 @@ const renderGroup2and3Form = async (groupKey) => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                 <input type="date" id="dpjFecha" class="rounded border px-2 py-1">
                 <input type="text" id="dpjJuzgado" placeholder="Juzgado" class="rounded border px-2 py-1">
-                <button onclick="addDiligenciaPreviasJuzgados()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addDiligenciaPreviasJuzgados()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="font-semibold mb-2">Inhibiciones</h4>
@@ -1468,7 +1468,7 @@ const renderGroup2and3Form = async (groupKey) => {
                 <input type="date" id="hgJFecha" class="rounded border px-2 py-1">
                 <input type="text" id="hgJJuzgado" placeholder="Juzgado Relacionado" class="rounded border px-2 py-1">
                 <input type="text" id="hgJEvento" placeholder="Descripción Evento" class="rounded border px-2 py-1">
-                <button onclick="addHistoricoGeneralJuzgados()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addHistoricoGeneralJuzgados()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
         `)}
 
@@ -1478,14 +1478,14 @@ const renderGroup2and3Form = async (groupKey) => {
             <div id="intervencionesTelefonicasContainer" class="mb-4 space-y-2"></div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
                 <input type="text" id="itDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                <button onclick="addIntervencionTelefonica()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addIntervencionTelefonica()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="mb-2 font-semibold">Entradas y Registros</h4>
             <div id="entradasYRegistrosContainer" class="mb-4 space-y-2"></div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
                 <input type="text" id="eyrDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                <button onclick="addEntradaYRegistro()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addEntradaYRegistro()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="mb-2 font-semibold">Solicitudes Judiciales</h4>
@@ -1493,7 +1493,7 @@ const renderGroup2and3Form = async (groupKey) => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                 <input type="text" id="sjTipo" placeholder="Tipo" class="rounded border px-2 py-1">
                 <input type="text" id="sjDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                <button onclick="addSolicitudJudicial()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addSolicitudJudicial()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="mb-2 font-semibold">Colaboraciones</h4>
@@ -1502,7 +1502,7 @@ const renderGroup2and3Form = async (groupKey) => {
                 <input type="date" id="colaboracionFecha" class="rounded border px-2 py-1">
                 <input type="text" id="colaboracionGrupoInstitucion" placeholder="Grupo/Inst." class="rounded border px-2 py-1">
                 <input type="text" id="colaboracionTipo" placeholder="Tipo Colaboración" class="rounded border px-2 py-1">
-                <button onclick="addColaboracion()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addColaboracion()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
         `)}
 
@@ -1511,7 +1511,7 @@ const renderGroup2and3Form = async (groupKey) => {
             <ul id="chronologyList" class="mb-4 list-disc pl-5"></ul>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
                 <input type="text" id="chronDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                <button id="addChronBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir Evento</button>
+                <button id="addChronBtn" class="btn-police px-4 py-2 rounded">Añadir Evento</button>
             </div>
         `)}
 
@@ -1524,7 +1524,7 @@ const renderGroup2and3Form = async (groupKey) => {
                 <input type="text" id="detNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                 <input type="date" id="detFecha" class="rounded border px-2 py-1">
                 <input type="text" id="detOrdinal" placeholder="Ordinal" class="rounded border px-2 py-1">
-                <button onclick="addDetenido()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addDetenido()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="mb-2 font-semibold">Detenidos Previstos</h4>
@@ -1534,7 +1534,7 @@ const renderGroup2and3Form = async (groupKey) => {
                 <input type="text" id="detPrevNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                 <input type="date" id="detPrevFecha" class="rounded border px-2 py-1">
                 <input type="text" id="detPrevOrdinal" placeholder="Ordinal" class="rounded border px-2 py-1">
-                <button onclick="addDetenidoPrevisto()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addDetenido()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
 
             <h4 class="mb-2 font-semibold">Otras Personas</h4>
@@ -1544,7 +1544,7 @@ const renderGroup2and3Form = async (groupKey) => {
                 <input type="text" id="otraTipo" placeholder="Tipo Vinculación" class="rounded border px-2 py-1">
                 <input type="text" id="otraNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                 <input type="text" id="otraTelefono" placeholder="Teléfono" class="rounded border px-2 py-1">
-                <button onclick="addOtraPersona()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button onclick="addOtraPersona()" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
         `)}
 
@@ -1586,7 +1586,7 @@ const renderGroup2and3Form = async (groupKey) => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <input type="text" id="pendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                 <input type="date" id="pendDate" class="rounded border px-2 py-1">
-                <button id="addPendBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button id="addPendBtn" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
         `)}
 
@@ -2131,7 +2131,7 @@ const renderStatistics = () => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div><label>Desde</label><input type="date" id="startDate" class="w-full rounded border px-2 py-1" value="${formatDate(weekAgo)}"></div>
                 <div><label>Hasta</label><input type="date" id="endDate" class="w-full rounded border px-2 py-1" value="${formatDate(today)}"></div>
-                <button id="statsBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Generar Estadísticas</button>
+                <button id="statsBtn" class="btn-police px-4 py-2 rounded">Generar Estadísticas</button>
             </div>
             <div id="statsResult" class="mt-4"></div>
         </div>
@@ -2156,7 +2156,7 @@ const renderStatistics = () => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <input type="text" id="newTaskDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                 <input type="date" id="newTaskDate" class="rounded border px-2 py-1">
-                <button id="addTaskBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                <button id="addTaskBtn" class="btn-police px-4 py-2 rounded">Añadir</button>
             </div>
         </div>
     </div>
