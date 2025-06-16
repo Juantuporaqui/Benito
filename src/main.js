@@ -898,12 +898,8 @@ const renderSpecificGroupForm = async (groupKey) => {
         default:
             formFields = `<p class="text-gray-500">No hay formulario definido para este grupo.</p>`;
     }
-
-    // Montamos el HTML del formulario
-    const formHtml = `
-        <div class="max-w-4xl mx-auto p-4 space-y-6">
-            <h2 class="text-2xl font-bold text-center">${g.name} · ${g.description}</h2>
-            <!-- Búsqueda / Selección existente -->
+// Sección de búsqueda/selección
+    let searchSection = `
             <div class="bg-white p-4 rounded shadow border-blue-300 border">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <div class="md:col-span-2">
@@ -922,7 +918,28 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="text-right">
                     <button id="saveDocBtn" class="bg-green-600 text-white px-6 py-2 rounded">Guardar Registro</button>
                 </div>
-            </div>
+            </div>`;
+
+    if (groupKey === 'puerto') {
+        searchSection = `
+            <div class="bg-white p-4 rounded shadow border-blue-300 border">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <div class="md:col-span-2">
+                        <label>Fecha (grabar / buscar)</label>
+                        <input type="date" id="searchDate" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <button id="loadDateBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Buscar</button>
+                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+                </div>
+            </div>`;
+    }
+
+    // Montamos el HTML del formulario
+    const formHtml = `
+        <div class="max-w-4xl mx-auto p-4 space-y-6">
+            <h2 class="text-2xl font-bold text-center">${g.name} · ${g.description}</h2>
+            ${searchSection}
+
 
             <!-- Listas dinámicas adicionales -->
             ${dynamicAdders}
@@ -932,8 +949,14 @@ const renderSpecificGroupForm = async (groupKey) => {
 
     // Event listeners
     document.getElementById('newDocBtn').addEventListener('click', () => resetSpecificForm(colName));
-    document.getElementById('loadDocBtn').addEventListener('click', () => loadSpecificDoc(colName, dataMap));
-    document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, dataMap));
+if (groupKey === 'puerto') {
+        document.getElementById('loadDateBtn').addEventListener('click', () => {
+            const dt = document.getElementById('searchDate').value;
+            loadDocByDate(colName, dataMap, dt);
+        });
+    } else {
+        document.getElementById('loadDocBtn').addEventListener('click', () => loadSpecificDoc(colName, dataMap));
+    }    document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, dataMap));
 
     await resetSpecificForm(colName);
 };
@@ -995,6 +1018,64 @@ const loadSpecificDoc = async (collectionName, dataMapping) => {
     }
 };
 
+const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
+    if (!dateStr) return;
+    showSpinner(true);
+    const date = new Date(dateStr);
+    try {
+        const q = query(
+            collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`),
+            where('fecha', '==', date)
+        );
+        const snaps = await getDocs(q);
+        await resetSpecificForm(collectionName);
+        document.getElementById('fecha').value = formatDate(date);
+        document.getElementById('anio').value = date.getFullYear();
+        if (snaps.empty) {
+            currentDocId = null;
+            showStatus('Sin registro para esa fecha.', true);
+            return;
+        }
+        const snap = snaps.docs[0];
+        currentDocId = snap.id;
+        const data = snap.data();
+        for (const key in dataMapping) {
+            const mp = dataMapping[key];
+            if (typeof mp === 'string') {
+                const fld = document.getElementById(mp);
+                if (!fld) continue;
+                if (fld.type === 'date') fld.value = formatDate(data[key]);
+                else fld.value = data[key] || '';
+            } else if (typeof mp === 'function') {
+                const containerMap = {
+                    personasImplicadas: 'personasImplicadasContainer',
+                    grupoPendientes: 'grupoPendientesList',
+                    personasImplicadasG4: 'personasImplicadasG4Container',
+                    grupo4Pendientes: 'grupo4PendientesList',
+                    puertoPendientes: 'puertoPendientesList',
+                    ciePendientes: 'ciePendientesList',
+                    gestionPendientes: 'gestionPendientesList',
+                    cecorexPendientes: 'cecorexPendientesList'
+                };
+                const containerId = containerMap[key];
+                if (!containerId) continue;
+                const cont = document.getElementById(containerId);
+                if (!cont) continue;
+                cont.innerHTML = '';
+                if (data[key] && Array.isArray(data[key])) {
+                    const addFnName = 'add' + key.charAt(0).toUpperCase() + key.slice(1).replace(/s$/, '');
+                    data[key].forEach(item => { if (window[addFnName]) window[addFnName](item); });
+                }
+            }
+        }
+        showStatus('Registro cargado.', false);
+    } catch(e) {
+        console.error(e);
+        showStatus(`Error al cargar: ${e.message}`, true);
+    } finally {
+        showSpinner(false);
+    }
+};
 /**
  * Guarda el registro del formulario simplificado.
  */
