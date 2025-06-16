@@ -3,6 +3,9 @@ import { signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "ht
 import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from './utils.js';
 import { groups } from './groups.js';
+// Import dynamic list helpers so that global add*/get* functions are registered
+import './ui/dynamicLists.js';
+
 
 
 // --- Firebase Configuration ---
