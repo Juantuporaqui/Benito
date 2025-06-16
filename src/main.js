@@ -1042,50 +1042,49 @@ const renderSpecificGroupForm = async (groupKey) => {
         default:
             formFields = `<p class="text-gray-500">No hay formulario definido para este grupo.</p>`;
     }
-// Sección de búsqueda/selección
+   // Sección de búsqueda/selección
     let searchSection = `
-            <div class="bg-white p-4 rounded shadow border-blue-300 border">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                    <div class="md:col-span-2">
-                        <label>Buscar registro existente</label>
-                        <select id="docList" class="w-full rounded border px-2 py-1"></select>
-                    </div>
-                    <button id="loadDocBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Cargar</button>
-                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+        <div class="bg-white p-4 rounded shadow border-blue-300 border">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div class="md:col-span-2">
+                    <label>Buscar registro existente</label>
+                    <select id="docList" class="w-full rounded border px-2 py-1"></select>
                 </div>
+                <button id="loadDocBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Cargar</button>
+                <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
             </div>
-
-            <!-- Campos principales -->
-            <div class="bg-white p-4 rounded shadow border-blue-300 border space-y-4">
-                <div id="status-message" class="font-semibold"></div>
-                ${formFields}
-                <div class="text-right">
-                    <button id="saveDocBtn" class="bg-green-600 text-white px-6 py-2 rounded">Guardar Registro</button>
-                </div>
-            </div>`;
+        </div>`;
 
     if (groupKey === 'puerto' || groupKey === 'cecorex') {
         searchSection = `
-            <div class="bg-white p-4 rounded shadow border-blue-300 border">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                    <div class="md:col-span-2">
-                        <label>Fecha (grabar / buscar)</label>
-                        <input type="date" id="searchDate" class="w-full rounded border px-2 py-1">
-                    </div>
-                    <button id="loadDateBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Buscar</button>
-                    <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+        <div class="bg-white p-4 rounded shadow border-blue-300 border">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div class="md:col-span-2">
+                    <label>Fecha (grabar / buscar)</label>
+                    <input type="date" id="searchDate" class="w-full rounded border px-2 py-1">
                 </div>
-            </div>`;
+                <button id="loadDateBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Buscar</button>
+                <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+            </div>
+        </div>`;
     }
+
+    const formSection = `
+        <div class="bg-white p-4 rounded shadow border-blue-300 border space-y-4">
+            <div id="status-message" class="font-semibold"></div>
+            ${formFields}
+            <div class="text-right">
+                <button id="saveDocBtn" class="bg-green-600 text-white px-6 py-2 rounded">Guardar Registro</button>
+            </div>
+        </div>`;
 
     // Montamos el HTML del formulario
     const formHtml = `
         <div class="max-w-4xl mx-auto p-4 space-y-6">
             <h2 class="text-2xl font-bold text-center">${g.name} · ${g.description}</h2>
             ${searchSection}
+            ${formSection}
 
-
-            <!-- Listas dinámicas adicionales -->
             ${dynamicAdders}
         </div>
     `;
@@ -1102,6 +1101,16 @@ const renderSpecificGroupForm = async (groupKey) => {
                 const dt = document.getElementById('searchDate').value;
                 loadDocByDate(colName, dataMap, dt);
             });
+        }
+                const pendSel = document.getElementById('pendiente');
+        const pendDet = document.getElementById('pendienteDetalles');
+        if (pendSel && pendDet) {
+            const togglePend = () => {
+                if (pendSel.value === 'Sí') pendDet.classList.remove('hidden');
+                else pendDet.classList.add('hidden');
+            };
+            pendSel.addEventListener('change', togglePend);
+            togglePend();
         }
         const pendSel = document.getElementById('pendiente');
         const pendDet = document.getElementById('pendienteDetalles');
@@ -1278,6 +1287,11 @@ const saveSpecificDoc = async (collectionName, dataMapping) => {
         showSpinner(false);
     }
 };
+
+ const pendSel = document.getElementById('pendiente');
+    const pendDet = document.getElementById('pendienteDetalles');
+    if (pendSel) pendSel.value = '';
+    if (pendDet) pendDet.classList.add('hidden');
 
 /**
  * Resetea el formulario simplificado.
