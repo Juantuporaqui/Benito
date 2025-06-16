@@ -14,7 +14,7 @@ import { showSpinner, showStatus } from '../utils.js';
 export async function saveData (collectionName, data, docId = null) {
   if (!userId) { showStatus('Usuario no autenticado', true); throw new Error('No auth'); }
 
-  const userCol = collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`);
+  const userCol = collection(db, `artifacts/${appId}/${collectionName}`);
 
   if (docId) {
     await setDoc(doc(userCol, docId), { ...data, updatedAt: serverTimestamp() }, { merge:true });
@@ -28,7 +28,7 @@ export async function saveData (collectionName, data, docId = null) {
 export async function loadData (collectionName, docId) {
   if (!userId) { showStatus('Usuario no autenticado', true); throw new Error('No auth'); }
 
-  const snap = await getDoc(doc(db, `artifacts/${appId}/users/${userId}/${collectionName}`, docId));
+  const snap = await getDoc(doc(db, `artifacts/${appId}/${collectionName}`, docId));
   return snap.exists() ? snap.data() : null;
 }
 
@@ -45,7 +45,7 @@ export async function fetchDataForSelect (
   select.innerHTML = '<option value="">-- Seleccionar --</option>';
   showSpinner(true);
 
-  let q = collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`);
+  let q = collection(db, `artifacts/${appId}/${collectionName}`);
   if (groupKey) q = query(q, where('grupo', '==', groups[groupKey].name));
 
   const docs = (await getDocs(q)).docs.map(d => ({ id:d.id, ...d.data() }));
@@ -76,7 +76,7 @@ export async function getNextCode (collectionName, groupName, year) {
   if (!userId) return 1;
 
   const q = query(
-    collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`),
+    collection(db, `artifacts/${appId}/${collectionName}`),
     where('grupo','==', groupName),
     where('anio', '==', year)
   );
@@ -93,7 +93,7 @@ export async function loadSubCollection (opId, subCol, listId, sortFn, renderFn)
   const elm = document.getElementById(listId);
   if (!elm)  return;
 
-  const q     = collection(db, `artifacts/${appId}/users/${userId}/operations`, opId, subCol);
+  const q     = collection(db, `artifacts/${appId}/operations`, opId, subCol);
   const items = (await getDocs(q)).docs.map(d => ({id:d.id, ...d.data()})).sort(sortFn);
 
   elm.innerHTML = items.map(renderFn).join('');
@@ -101,7 +101,7 @@ export async function loadSubCollection (opId, subCol, listId, sortFn, renderFn)
 
 export async function addRelatedItem (opId, subCol, data) {
   if (!userId) throw new Error('No auth');
-  const ref = collection(db, `artifacts/${appId}/users/${userId}/operations`, opId, subCol);
+  const ref = collection(db, `artifacts/${appId}/operations`, opId, subCol);
   const docRef = await addDoc(ref, { ...data, createdAt: serverTimestamp() });
   return docRef.id;
 }
