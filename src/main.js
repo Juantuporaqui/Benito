@@ -1210,17 +1210,8 @@ const renderSpecificGroupForm = async (groupKey) => {
             pendSel.addEventListener('change', togglePend);
             togglePend();
         }
-    const pendSel = document.getElementById('pendiente');
-        const pendDet = document.getElementById('pendienteDetalles');
-        if (pendSel && pendDet) {
-            const togglePend = () => {
-                if (pendSel.value === 'Sí') pendDet.classList.remove('hidden');
-                else pendDet.classList.add('hidden');
-            };
-            pendSel.addEventListener('change', togglePend);
-            togglePend();
-        }
-    } else {        
+    
+            } else {        
         const loadDocBtn = document.getElementById('loadDocBtn');
         if (loadDocBtn) {
             loadDocBtn.addEventListener('click', () => loadSpecificDoc(colName, dataMap));
