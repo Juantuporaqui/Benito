@@ -470,6 +470,159 @@ const getOtrasPersonas = () => {
     ]);
 };
 window.getOtrasPersonas = getOtrasPersonas;
+// --- Dynamic Lists for Simplified Group Forms ---
+
+// Helper to add a basic pending task item to an unordered list
+const addBasicListItem = (listId, desc, fecha) => {
+    const list = document.getElementById(listId);
+    if (!list || !desc) return;
+    const li = document.createElement('li');
+    li.dataset.descripcion = desc;
+    li.dataset.fecha = fecha || '';
+    li.className = 'flex justify-between items-center';
+    li.innerHTML = `
+        <span>${desc}${fecha ? ` (Vence: ${fecha})` : ''}</span>
+        <button type="button" class="ml-2 text-xs text-red-500 remove-basic-item">Eliminar</button>`;
+    li.querySelector('.remove-basic-item').addEventListener('click', () => li.remove());
+    list.appendChild(li);
+};
+
+const getBasicListItems = (listId) => {
+    const list = document.getElementById(listId);
+    if (!list) return [];
+    return Array.from(list.children).map(li => ({
+        descripcion: li.dataset.descripcion || '',
+        fechaLimite: li.dataset.fecha || ''
+    }));
+};
+
+// Personas implicadas (Grupo 1)
+const addPersonaImplicada = (data = {}) => {
+    const container = document.getElementById('personasImplicadasContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'impNombre', label: 'Nombre', valueField: 'nombre' },
+        { idPrefix: 'impNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+        { idPrefix: 'impFechaExp', label: 'Fecha Expulsión', type: 'date', valueField: 'fechaExpulsion' }
+    ], data);
+};
+window.addPersonaImplicada = addPersonaImplicada;
+
+const getPersonasImplicadas = () => {
+    const container = document.getElementById('personasImplicadasContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'impNombre', valueField: 'nombre' },
+        { idPrefix: 'impNac', valueField: 'nacionalidad' },
+        { idPrefix: 'impFechaExp', valueField: 'fechaExpulsion' }
+    ]);
+};
+window.getPersonasImplicadas = getPersonasImplicadas;
+
+const addGrupoPendiente = (data = {}) => {
+    const descInput = document.getElementById('gpPendDesc');
+    const dateInput = document.getElementById('gpPendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('grupoPendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addGrupoPendiente = addGrupoPendiente;
+
+const getGrupoPendientes = () => getBasicListItems('grupoPendientesList');
+window.getGrupoPendientes = getGrupoPendientes;
+
+// Personas implicadas (Grupo 4)
+const addPersonaImplicadaG4 = (data = {}) => {
+    const container = document.getElementById('personasImplicadasG4Container');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'impG4Nombre', label: 'Nombre', valueField: 'nombre' },
+        { idPrefix: 'impG4Rol', label: 'Rol', valueField: 'rol' }
+    ], data);
+};
+window.addPersonaImplicadaG4 = addPersonaImplicadaG4;
+
+const getPersonasImplicadasG4 = () => {
+    const container = document.getElementById('personasImplicadasG4Container');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'impG4Nombre', valueField: 'nombre' },
+        { idPrefix: 'impG4Rol', valueField: 'rol' }
+    ]);
+};
+window.getPersonasImplicadasG4 = getPersonasImplicadasG4;
+
+const addGrupo4Pendiente = (data = {}) => {
+    const descInput = document.getElementById('gp4PendDesc');
+    const dateInput = document.getElementById('gp4PendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('grupo4PendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addGrupo4Pendiente = addGrupo4Pendiente;
+
+const getGrupo4Pendientes = () => getBasicListItems('grupo4PendientesList');
+window.getGrupo4Pendientes = getGrupo4Pendientes;
+
+const addPuertoPendiente = (data = {}) => {
+    const descInput = document.getElementById('puertoPendDesc');
+    const dateInput = document.getElementById('puertoPendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('puertoPendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addPuertoPendiente = addPuertoPendiente;
+
+const getPuertoPendientes = () => getBasicListItems('puertoPendientesList');
+window.getPuertoPendientes = getPuertoPendientes;
+
+const addCIEPendiente = (data = {}) => {
+    const descInput = document.getElementById('ciePendDesc');
+    const dateInput = document.getElementById('ciePendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('ciePendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addCIEPendiente = addCIEPendiente;
+
+const getCIEPendientes = () => getBasicListItems('ciePendientesList');
+window.getCIEPendientes = getCIEPendientes;
+
+const addGestionPendiente = (data = {}) => {
+    const descInput = document.getElementById('gestionPendDesc');
+    const dateInput = document.getElementById('gestionPendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('gestionPendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addGestionPendiente = addGestionPendiente;
+
+const getGestionPendientes = () => getBasicListItems('gestionPendientesList');
+window.getGestionPendientes = getGestionPendientes;
+
+const addCecorexPendiente = (data = {}) => {
+    const descInput = document.getElementById('cecorexPendDesc');
+    const dateInput = document.getElementById('cecorexPendDate');
+    const desc = data.descripcion || (descInput ? descInput.value.trim() : '');
+    const fecha = data.fechaLimite ? formatDate(data.fechaLimite) : (dateInput ? dateInput.value : '');
+    addBasicListItem('cecorexPendientesList', desc, fecha);
+    if (!data.descripcion && descInput) descInput.value = '';
+    if (!data.descripcion && dateInput) dateInput.value = '';
+};
+window.addCecorexPendiente = addCecorexPendiente;
+
+const getCecorexPendientes = () => getBasicListItems('cecorexPendientesList');
+window.getCecorexPendientes = getCecorexPendientes;
 
 // --- VIEW RENDERING FUNCTIONS ---
 
