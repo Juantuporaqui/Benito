@@ -7,12 +7,20 @@
 // -----------------------------------------------------
 import { db }                        from '../firebase.js';
 import { appId, getUserId }         from '../state.js';
-import { collection, doc, addDoc, setDoc, getDoc, getDocs,
-         query, where, serverTimestamp, Timestamp }
-       from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+import {
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  serverTimestamp,
+  Timestamp,
+} from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-         showSpinner, showStatus }   from '../utils.js';
-         showSpinner, showStatus }   from '../helpers/utils.js';
+import { showSpinner, showStatus } from '../utils.js';
 
 import * as lists                    from './dynamicLists.js';
 
