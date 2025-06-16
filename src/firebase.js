@@ -1,32 +1,69 @@
-diff --git a//dev/null b/src/firebase.js
-index 0000000000000000000000000000000000000000..6d4da9873c9a25fdeef89e40f5b31dfa99793713 100644
---- a//dev/null
-+++ b/src/firebase.js
-@@ -0,0 +1,27 @@
-+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-+import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-+
-+// Firebase configuration
-+const firebaseConfig = {
-+    apiKey: "AIzaSyDTvriR7KjlAINO44xhDDvIDlc4T_4nilo",
-+    authDomain: "ucrif-5bb75.firebaseapp.com",
-+    projectId: "ucrif-5bb75",
-+    storageBucket: "ucrif-5bb75.firebasestorage.app",
-+    messagingSenderId: "241698436443",
-+    appId: "1:241698436443:web:1f333b3ae3f813b755167e",
-+    measurementId: "G-S2VPQNWZ21"
-+};
-+
-+let app, db, auth;
-+
-+export function initFirebase() {
-+    if (!app) {
-+        app = initializeApp(firebaseConfig);
-+        db = getFirestore(app);
-+        auth = getAuth(app);
-+    }
-+    return { db, auth };
-+}
-+
-+export { db, auth };
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8; /* Light blue-gray background */
+}
+
+details > summary {
+    list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details[open] .details-arrow {
+    transform: rotate(180deg);
+}
+
+#spinner {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.spinner-icon {
+    border-top-color: #3b82f6; /* Blue-500 */
+}
+
+/* Styles for dynamic list items within the details sections */
+.dynamic-list-item {
+    background-color: #f9fafb; /* Lighter background for items */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on small screens */
+    gap: 0.75rem; /* Space between items */
+    align-items: flex-end; /* Align inputs to the bottom */
+    border: 1px solid #e2e8f0; /* Light border */
+}
+
+.dynamic-list-item > div { /* Container for label+input */
+    flex-grow: 1;
+}
+
+.dynamic-list-item input,
+.dynamic-list-item textarea {
+    width: 100%; /* Take full width of its flex-grow div */
+    padding: 0.5rem; /* Smaller padding for items */
+    border-radius: 0.375rem; /* Slightly smaller border-radius */
+    border: 1px solid #cbd5e1;
+    font-size: 0.875rem; /* text-sm */
+}
+
+.dynamic-list-item label {
+    display: block; /* Ensure label is on its own line */
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 500; /* medium */
+    color: #475569; /* slate-600 */
+    margin-bottom: 0.25rem; /* Small space between label and input */
+}
+
+.dynamic-list-item button {
+    flex-shrink: 0; /* Don't allow button to shrink */
+    padding: 0.375rem 0.75rem; /* Smaller padding for buttons */
+    font-size: 0.75rem; /* text-xs */
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    height: fit-content; /* Adjust button height to fit content */
+    margin-bottom: 0; /* Remove any default margin */
+}
