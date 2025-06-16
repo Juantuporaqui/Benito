@@ -1,100 +1,290 @@
-// main.js – Punto de entrada de la aplicación UCRIF
-// ───────────────────────────────────────────────────
-// Orquesta la autenticación, las rutas y la carga dinámica de vistas.
-// Mantén los helpers y vistas en los ficheros indicados en los imports.
+// src/ui/dynamicLists.js
+// -----------------------------------------------------
+//  Todas las funciones add*/get* que antes estaban en
+//  main.js – ahora modulares y exportadas.
+// -----------------------------------------------------
+import { formatDate }           from '../helpers/utils.js';
+import { removeDynamicItem }    from '../helpers/utils.js';
 
-import { initFirebase, auth } from "./helpers/firebase.js";
-import {
-  signInAnonymously,
-  signInWithCustomToken,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+// Hacemos el remove disponible globalmente para los botones html
+window.removeDynamicItem = removeDynamicItem;
 
-// Vistas
-import { renderMenu } from "./views/menu.js";
-import { renderStatistics } from "./views/statistics.js";
-import { renderGroup2and3Form } from "./views/group2and3Form.js";
-import { renderSpecificGroupForm } from "./views/simplifiedGroupForm.js";
+/* ─────────────────────────────────────────────────────
+   Genéricos
+   ──────────────────────────────────────────────────── */
+const addDynamicItem = (container, fields, data = {}) => {
+  const div = document.createElement('div');
+  div.className = 'dynamic-list-item flex flex-wrap gap-3 mb-2';
 
-// Utilidades y constantes
-import { groups } from "./constants/groups.js"; // mapeo clave‑grupo
-import { showAuthError, showFirebaseConfigError } from "./helpers/firebaseErrors.js";
+  let html = '';
+  fields.forEach((f) => {
+    const value = data[f.valueField] ?? '';
+    const print = f.type === 'date' ? formatDate(value) : value;
 
-// Exponer algunos helpers globales si tu HTML los necesita (ej. <button onclick="navigateTo('grupo1')">)
-export const appState = {
-  appId: typeof __app_id !== "undefined" ? __app_id : "default-app-id",
-  userId: null,
-  currentView: "menu",
-  currentGroup: null,
-  currentDocId: null,
-};
-
-// ───────────────────────── Router ─────────────────────────
-export const router = {
-  goHome() {
-    appState.currentView = "menu";
-    renderMenu();
-  },
-
-  toGroup(groupKey) {
-    appState.currentGroup = groupKey;
-
-    if (groupKey === "estadistica") {
-      renderStatistics();
-      return;
-    }
-
-    if (groupKey === "grupo2" || groupKey === "grupo3") {
-      renderGroup2and3Form(groupKey);
-      return;
-    }
-
-    renderSpecificGroupForm(groupKey);
-  },
-};
-
-// Hacer accesible desde HTML
-window.navigateTo = router.toGroup.bind(router);
-
-// ─────────────── Autenticación Firebase ────────────────
-const authenticateAndRenderMenu = async () => {
-  try {
-    if (typeof __initial_auth_token !== "undefined") {
-      await signInWithCustomToken(auth, __initial_auth_token);
+    let input;
+    if (f.type === 'textarea') {
+      input = `<textarea rows="${f.rows ?? 2}"
+                         class="${f.idPrefix}-item w-full px-2 py-1 border rounded">${print}</textarea>`;
+    } else if (f.type === 'select') {
+      input = `<select class="${f.idPrefix}-item w-full px-2 py-1 border rounded">
+                 ${f.options
+                   .map((o) => `<option ${o === print ? 'selected' : ''}>${o}</option>`)
+                   .join('')}
+               </select>`;
     } else {
-      await signInAnonymously(auth);
+      input = `<input type="${f.type ?? 'text'}"
+                      class="${f.idPrefix}-item w-full px-2 py-1 border rounded"
+                      value="${print}">`;
     }
 
-    appState.userId = auth.currentUser?.uid ?? crypto.randomUUID();
-    renderMenu();
-  } catch (error) {
-    console.error("Authentication failed:", error);
-    showAuthError(error);
-  }
+    html += `
+      <div class="flex-1 min-w-[120px]">
+        <label class="block text-xs mb-1">${f.label}:</label>
+        ${input}
+      </div>`;
+  });
+
+  div.innerHTML = `
+    ${html}
+    <button type="button"
+            class="bg-red-500 text-white text-xs px-3 py-1 rounded"
+            onclick="removeDynamicItem(this)">Eliminar</button>`;
+  container.appendChild(div);
 };
 
-// ─────────────────────── Init ───────────────────────────
-const init = () => {
-  try {
-    initFirebase();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        appState.userId = user.uid;
-        renderMenu();
-      } else {
-        await authenticateAndRenderMenu();
-      }
+const getDynamicItems = (container, fields) => {
+  const items = [];
+  container.querySelectorAll('.dynamic-list-item').forEach((div) => {
+    const obj = {};
+    let empty = true;
+    fields.forEach((f) => {
+      const sel =
+        f.type === 'textarea'
+          ? `textarea.${f.idPrefix}-item`
+          : f.type === 'select'
+          ? `select.${f.idPrefix}-item`
+          : `input.${f.idPrefix}-item`;
+      const el = div.querySelector(sel);
+      obj[f.valueField] = (el?.value ?? '').trim();
+      if (obj[f.valueField]) empty = false;
     });
-
-    // Botón "Atrás" universal si existe en tu HTML
-    document
-      .getElementById("back-button")
-      ?.addEventListener("click", router.goHome);
-  } catch (e) {
-    console.error("Firebase config error:", e);
-    showFirebaseConfigError(e);
-  }
+    if (!empty) items.push(obj);
+  });
+  return items;
 };
 
-document.addEventListener("DOMContentLoaded", init);
+/* ─────────────────────────────────────────────────────
+   Factoria rápida para crear los pares add*/get*
+   ──────────────────────────────────────────────────── */
+const exportObj = {};
+const makePair = (addName, getName, containerId, fieldDefs) => {
+  const addFn = (d = {}) => {
+    const c = document.getElementById(containerId);
+    if (c) addDynamicItem(c, fieldDefs, d);
+  };
+  const getFn = () =>
+    getDynamicItems(document.getElementById(containerId), fieldDefs) ?? [];
+
+  exportObj[addName] = addFn;
+  exportObj[getName] = getFn;
+  window[addName] = addFn;
+  window[getName] = getFn;
+};
+
+/* ─── Declaración de TODOS los pares que tenías ─── */
+// Personas implicadas (Grupo 1)
+makePair(
+  'addPersonaImplicada',
+  'getPersonasImplicadas',
+  'personasImplicadasContainer',
+  [
+    { idPrefix: 'impNombre', label: 'Nombre', valueField: 'nombre' },
+    { idPrefix: 'impNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'impFechaExp', label: 'Fecha Expulsión', type: 'date', valueField: 'fechaExpulsion' },
+  ],
+);
+makePair(
+  'addGrupoPendiente',
+  'getGrupoPendientes',
+  'grupoPendientesList',
+  [
+    { idPrefix: 'gpPendDesc', label: 'Descripción', valueField: 'descripcion' },
+    { idPrefix: 'gpPendDate', label: 'Fecha Límite', type: 'date', valueField: 'fechaLimite' },
+  ],
+);
+
+// Grupo 4
+makePair(
+  'addPersonaImplicadaG4',
+  'getPersonasImplicadasG4',
+  'personasImplicadasG4Container',
+  [
+    { idPrefix: 'impG4Nombre', label: 'Nombre', valueField: 'nombre' },
+    { idPrefix: 'impG4Rol', label: 'Rol', valueField: 'rol' },
+  ],
+);
+makePair(
+  'addGrupo4Pendiente',
+  'getGrupo4Pendientes',
+  'grupo4PendientesList',
+  [
+    { idPrefix: 'gp4PendDesc', label: 'Descripción', valueField: 'descripcion' },
+    { idPrefix: 'gp4PendDate', label: 'Fecha Límite', type: 'date', valueField: 'fechaLimite' },
+  ],
+);
+
+// Puerto, CIE, Gestión, CECOREX
+[
+  ['Puerto', 'puertoPendientesList', 'puertoPendDesc', 'puertoPendDate'],
+  ['CIE', 'ciePendientesList', 'ciePendDesc', 'ciePendDate'],
+  ['Gestion', 'gestionPendientesList', 'gestionPendDesc', 'gestionPendDate'],
+  ['Cecorex', 'cecorexPendientesList', 'cecorexPendDesc', 'cecorexPendDate'],
+].forEach(([n, listId, descId, dateId]) =>
+  makePair(
+    `add${n}Pendiente`,
+    `get${n}Pendientes`,
+    listId,
+    [
+      { idPrefix: descId, label: 'Descripción', valueField: 'descripcion' },
+      { idPrefix: dateId, label: 'Fecha Límite', type: 'date', valueField: 'fechaLimite' },
+    ],
+  ),
+);
+
+// Grupos 2/3 – todas las parejas (D.Previas, Inhibiciones, etc.)
+makePair(
+  'addDiligenciaPreviasJuzgados',
+  'getDiligenciasPreviasJuzgados',
+  'diligenciasPreviasJuzgadosContainer',
+  [
+    { idPrefix: 'dpjFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+    { idPrefix: 'dpjJuzgado', label: 'Juzgado', valueField: 'juzgado' },
+  ],
+);
+makePair(
+  'addHistoricoInhibicion',
+  'getHistoricoInhibiciones',
+  'historicoInhibicionesContainer',
+  [
+    { idPrefix: 'inhibJuzgado', label: 'Juzgado', valueField: 'juzgado' },
+    { idPrefix: 'inhibFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+  ],
+);
+makePair(
+  'addHistoricoGeneralJuzgados',
+  'getHistoricoGeneralJuzgados',
+  'historicoGeneralJuzgadosContainer',
+  [
+    { idPrefix: 'hgJFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+    { idPrefix: 'hgJJuzgado', label: 'Juzgado', valueField: 'juzgado' },
+    { idPrefix: 'hgJEvento', label: 'Evento', valueField: 'evento' },
+  ],
+);
+makePair(
+  'addIntervencionTelefonica',
+  'getIntervencionesTelefonicas',
+  'intervencionesTelefonicasContainer',
+  [
+    { idPrefix: 'itDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+makePair(
+  'addEntradaYRegistro',
+  'getEntradasYRegistros',
+  'entradasYRegistrosContainer',
+  [
+    { idPrefix: 'eyrDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+makePair(
+  'addSolicitudJudicial',
+  'getSolicitudesJudiciales',
+  'solicitudesJudicialesContainer',
+  [
+    { idPrefix: 'sjTipo', label: 'Tipo', valueField: 'tipo' },
+    { idPrefix: 'sjDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+makePair(
+  'addColaboracion',
+  'getColaboraciones',
+  'colaboracionesContainer',
+  [
+    { idPrefix: 'colaboracionFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+    { idPrefix: 'colaboracionGrupoInstitucion', label: 'Grupo/Institución', valueField: 'grupoInstitucion' },
+    { idPrefix: 'colaboracionTipo', label: 'Tipo', valueField: 'tipoColaboracion' },
+  ],
+);
+makePair(
+  'addDetenido',
+  'getDetenidos',
+  'detenidosContainer',
+  [
+    { idPrefix: 'detFiliacion', label: 'Filiación Delito', valueField: 'filiacionDelito' },
+    { idPrefix: 'detNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'detFecha', label: 'Fecha Detención', type: 'date', valueField: 'fechaDetencion' },
+    { idPrefix: 'detOrdinal', label: 'Ordinal', valueField: 'ordinal' },
+  ],
+);
+makePair(
+  'addDetenidoPrevisto',
+  'getDetenidosPrevistos',
+  'detenidosPrevistosContainer',
+  [
+    { idPrefix: 'detPrevFiliacion', label: 'Filiación Delito', valueField: 'filiacionDelito' },
+    { idPrefix: 'detPrevNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'detPrevFecha', label: 'Fecha Prevista', type: 'date', valueField: 'fechaDetencion' },
+    { idPrefix: 'detPrevOrdinal', label: 'Ordinal', valueField: 'ordinal' },
+  ],
+);
+makePair(
+  'addOtraPersona',
+  'getOtrasPersonas',
+  'otrasPersonasContainer',
+  [
+    { idPrefix: 'otraFiliacion', label: 'Filiación', valueField: 'filiacion' },
+    { idPrefix: 'otraTipo', label: 'Tipo de Vinculación', valueField: 'tipoVinculacion' },
+    { idPrefix: 'otraNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'otraTelefono', label: 'Teléfono', valueField: 'telefono' },
+  ],
+);
+
+/* ─── exportamos todos los add*/get* generados ─── */
+export const {
+  addPersonaImplicada,
+  getPersonasImplicadas,
+  addGrupoPendiente,
+  getGrupoPendientes,
+  addPersonaImplicadaG4,
+  getPersonasImplicadasG4,
+  addGrupo4Pendiente,
+  getGrupo4Pendientes,
+  addPuertoPendiente,
+  getPuertoPendientes,
+  addCIEPendiente,
+  getCIEPendientes,
+  addGestionPendiente,
+  getGestionPendientes,
+  addCecorexPendiente,
+  getCecorexPendientes,
+  addDiligenciaPreviasJuzgados,
+  getDiligenciasPreviasJuzgados,
+  addHistoricoInhibicion,
+  getHistoricoInhibiciones,
+  addHistoricoGeneralJuzgados,
+  getHistoricoGeneralJuzgados,
+  addIntervencionTelefonica,
+  getIntervencionesTelefonicas,
+  addEntradaYRegistro,
+  getEntradasYRegistros,
+  addSolicitudJudicial,
+  getSolicitudesJudiciales,
+  addColaboracion,
+  getColaboraciones,
+  addDetenido,
+  getDetenidos,
+  addDetenidoPrevisto,
+  getDetenidosPrevistos,
+  addOtraPersona,
+  getOtrasPersonas,
+} = exportObj;
