@@ -1,36 +1,53 @@
-import { userId }             from '../state.js';
-import { groups }             from '../groups.js';
-import * as DL                from './dynamicLists.js';
-import {
-  fetchDataForSelect, loadData, saveData,
-  getNextCode, loadSubCollection, addRelatedItem,
-  completePendingTask
-} from '../services/firestoreService.js';
+// src/ui/views.js
+// -----------------------------------------------------
+//  Toda la lógica de interfaz: menú, formularios y
+//  estadísticas.  Esencialmente es tu main.js original,
+//  pero sin la parte de helpers dinámicos (que ahora
+//  viven en dynamicLists.js) ni la inicialización.
+// -----------------------------------------------------
+import { db }                        from '../firebase.js';
+import { appId, getUserId }         from '../main.js';
+import { collection, doc, addDoc, setDoc, getDoc, getDocs,
+         query, where, serverTimestamp, Timestamp }
+       from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-import {
-  formatDate, formatDateTime,
-  showSpinner, showStatus
-} from '../utils.js';
+import { formatDate, formatDateTime,
+         showSpinner, showStatus }   from '../helpers/utils.js';
 
-// ---------------------------------------------------------------------------
-// Todo el código de vistas (renderMenu, navigateTo, renderSpecificGroupForm,
-// renderGroup2and3Form, renderStatistics, generateOperationReport, etc.)
-// es el MISMO que tenías.  Lo único que cambia son los imports de arriba.
-// ---------------------------------------------------------------------------
+import * as lists                    from './dynamicLists.js';
 
-// Ejemplo:
-export function renderMenu () {
-  // …  **copia aquí** la función original tal cual …
-}
-
-/* Copia el resto de funciones de UI sin tocar nada */
-
-// ---------------------------------------------------------------------------
-// Al final exportamos las que necesite main.js
-// ---------------------------------------------------------------------------
+//   … (código idéntico al de tu main.js desde la sección
+//      “GROUP DEFINITIONS” hasta justo antes del bloque
+//      de “INITIALIZATION”) …
+//
+//  ► No se repite aquí por extensión; copia/pega TODO el
+//    contenido que ya tenías, **manteniendo**:
+//
+//      - renderMenu
+//      - navigateTo
+//      - renderSpecificGroupForm
+//      - renderGroup2and3Form
+//      - renderStatistics
+//      - el resto de funciones (saveData, loadData, etc.)
+//
+//  Lo único que debes cambiar es:
+//
+//     1.  Sustituir cualquier `userId` por
+//         `const userId = getUserId();` cuando sea necesario.
+//
+//     2.  Reemplazar las llamadas a add*/get* para que
+//         usen el módulo `lists`, por ejemplo:
+//            lists.addDetenido()
+//            lists.getDetenidos()
+//
+//  Exponemos lo mínimo que necesita main.js:
 export {
+  renderMenu,
+  navigateTo,
   renderSpecificGroupForm,
   renderGroup2and3Form,
   renderStatistics,
-  /* …cualquier helper que quieras usar fuera… */
+  groups,
+  showAuthError,
+  showFirebaseConfigError,
 };
