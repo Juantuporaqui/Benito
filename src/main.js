@@ -4,8 +4,18 @@ import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverT
 import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from './utils.js';
 import { groups } from './groups.js';
 // Import dynamic list helpers so that global add*/get* functions are registered
-import './ui/dynamicLists.js';
-
+import {
+  addInternoNacionalidad,
+  getInternosNacionalidad,
+  addIngreso,
+  getIngresos,
+  addSalida,
+  getSalidas,
+  addColaboracionG4,
+  getColaboracionesG4,
+  addDetenidoG4,
+  getDetenidosG4,
+} from './ui/dynamicLists.js';
 
 
 // --- Firebase Configuration ---
