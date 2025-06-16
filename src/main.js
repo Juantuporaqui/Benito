@@ -1103,7 +1103,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 loadDocByDate(colName, dataMap, dt);
             });
         }
-        onst pendSel = document.getElementById('pendiente');
+        const pendSel = document.getElementById('pendiente');
         const pendDet = document.getElementById('pendienteDetalles');
         if (pendSel && pendDet) {
             const togglePend = () => {
