@@ -1078,16 +1078,26 @@ const renderSpecificGroupForm = async (groupKey) => {
     mainContent().innerHTML = formHtml;
 
     // Event listeners
-    document.getElementById('newDocBtn').addEventListener('click', () => resetSpecificForm(colName));
+    const newBtn  = document.getElementById('newDocBtn');
+    if (newBtn) newBtn.addEventListener('click', () => resetSpecificForm(colName));
+
     if (groupKey === 'puerto' || groupKey === 'cecorex') {
-        document.getElementById('loadDateBtn').addEventListener('click', () => {
-            const dt = document.getElementById('searchDate').value;
-            loadDocByDate(colName, dataMap, dt);
-        });
+        const loadDateBtn = document.getElementById('loadDateBtn');
+        if (loadDateBtn) {
+            loadDateBtn.addEventListener('click', () => {
+                const dt = document.getElementById('searchDate').value;
+                loadDocByDate(colName, dataMap, dt);
+            });
+        }
     } else {
-        document.getElementById('loadDocBtn').addEventListener('click', () => loadSpecificDoc(colName, dataMap));
-  }
-    document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, dataMap));
+        const loadDocBtn = document.getElementById('loadDocBtn');
+        if (loadDocBtn) {
+            loadDocBtn.addEventListener('click', () => loadSpecificDoc(colName, dataMap));
+        }
+    }
+
+    const saveBtn = document.getElementById('saveDocBtn');
+    if (saveBtn) saveBtn.addEventListener('click', () => saveSpecificDoc(colName, dataMap));
     await resetSpecificForm(colName);
 };
 
