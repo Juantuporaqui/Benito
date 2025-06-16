@@ -257,6 +257,219 @@ const getDynamicItems = (container, fields) => {
     return items;
 };
 
+// --- Specific Dynamic List Helpers for Groups 2/3 ---
+
+const addDiligenciaPreviasJuzgados = (data = {}) => {
+    const container = document.getElementById('diligenciasPreviasJuzgadosContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'dpjFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+        { idPrefix: 'dpjJuzgado', label: 'Juzgado', valueField: 'juzgado' }
+    ], data);
+};
+window.addDiligenciaPreviasJuzgados = addDiligenciaPreviasJuzgados;
+
+const getDiligenciasPreviasJuzgados = () => {
+    const container = document.getElementById('diligenciasPreviasJuzgadosContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'dpjFecha', valueField: 'fecha' },
+        { idPrefix: 'dpjJuzgado', valueField: 'juzgado' }
+    ]);
+};
+window.getDiligenciasPreviasJuzgados = getDiligenciasPreviasJuzgados;
+
+const addHistoricoInhibicion = (data = {}) => {
+    const container = document.getElementById('historicoInhibicionesContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'inhibJuzgado', label: 'Juzgado Inhibido', valueField: 'juzgado' },
+        { idPrefix: 'inhibFecha', label: 'Fecha Inhibición', type: 'date', valueField: 'fecha' }
+    ], data);
+};
+window.addHistoricoInhibicion = addHistoricoInhibicion;
+
+const getHistoricoInhibiciones = () => {
+    const container = document.getElementById('historicoInhibicionesContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'inhibJuzgado', valueField: 'juzgado' },
+        { idPrefix: 'inhibFecha', valueField: 'fecha' }
+    ]);
+};
+window.getHistoricoInhibiciones = getHistoricoInhibiciones;
+
+const addHistoricoGeneralJuzgados = (data = {}) => {
+    const container = document.getElementById('historicoGeneralJuzgadosContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'hgJFecha', label: 'Fecha Evento', type: 'date', valueField: 'fecha' },
+        { idPrefix: 'hgJJuzgado', label: 'Juzgado Relacionado', valueField: 'juzgado' },
+        { idPrefix: 'hgJEvento', label: 'Descripción del Evento', valueField: 'evento', colSpan: 2 }
+    ], data);
+};
+window.addHistoricoGeneralJuzgados = addHistoricoGeneralJuzgados;
+
+const getHistoricoGeneralJuzgados = () => {
+    const container = document.getElementById('historicoGeneralJuzgadosContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'hgJFecha', valueField: 'fecha' },
+        { idPrefix: 'hgJJuzgado', valueField: 'juzgado' },
+        { idPrefix: 'hgJEvento', valueField: 'evento' }
+    ]);
+};
+window.getHistoricoGeneralJuzgados = getHistoricoGeneralJuzgados;
+
+const addIntervencionTelefonica = (data = {}) => {
+    const container = document.getElementById('intervencionesTelefonicasContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'itDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 }
+    ], data);
+};
+window.addIntervencionTelefonica = addIntervencionTelefonica;
+
+const getIntervencionesTelefonicas = () => {
+    const container = document.getElementById('intervencionesTelefonicasContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'itDesc', valueField: 'descripcion' }
+    ]);
+};
+window.getIntervencionesTelefonicas = getIntervencionesTelefonicas;
+
+const addEntradaYRegistro = (data = {}) => {
+    const container = document.getElementById('entradasYRegistrosContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'eyrDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 }
+    ], data);
+};
+window.addEntradaYRegistro = addEntradaYRegistro;
+
+const getEntradasYRegistros = () => {
+    const container = document.getElementById('entradasYRegistrosContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'eyrDesc', valueField: 'descripcion' }
+    ]);
+};
+window.getEntradasYRegistros = getEntradasYRegistros;
+
+const addSolicitudJudicial = (data = {}) => {
+    const container = document.getElementById('solicitudesJudicialesContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'sjTipo', label: 'Tipo', valueField: 'tipo' },
+        { idPrefix: 'sjDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 }
+    ], data);
+};
+window.addSolicitudJudicial = addSolicitudJudicial;
+
+const getSolicitudesJudiciales = () => {
+    const container = document.getElementById('solicitudesJudicialesContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'sjTipo', valueField: 'tipo' },
+        { idPrefix: 'sjDesc', valueField: 'descripcion' }
+    ]);
+};
+window.getSolicitudesJudiciales = getSolicitudesJudiciales;
+
+const addColaboracion = (data = {}) => {
+    const container = document.getElementById('colaboracionesContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'colaboracionFecha', label: 'Fecha', type: 'date', valueField: 'fecha' },
+        { idPrefix: 'colaboracionGrupoInstitucion', label: 'Grupo/Institución', valueField: 'grupoInstitucion' },
+        { idPrefix: 'colaboracionTipo', label: 'Tipo de Colaboración', valueField: 'tipoColaboracion' }
+    ], data);
+};
+window.addColaboracion = addColaboracion;
+
+const getColaboraciones = () => {
+    const container = document.getElementById('colaboracionesContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'colaboracionFecha', valueField: 'fecha' },
+        { idPrefix: 'colaboracionGrupoInstitucion', valueField: 'grupoInstitucion' },
+        { idPrefix: 'colaboracionTipo', valueField: 'tipoColaboracion' }
+    ]);
+};
+window.getColaboraciones = getColaboraciones;
+
+const addDetenido = (data = {}) => {
+    const container = document.getElementById('detenidosContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'detFiliacion', label: 'Filiación Delito', valueField: 'filiacionDelito' },
+        { idPrefix: 'detNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+        { idPrefix: 'detFecha', label: 'Fecha Detención', type: 'date', valueField: 'fechaDetencion' },
+        { idPrefix: 'detOrdinal', label: 'Ordinal', valueField: 'ordinal' }
+    ], data);
+};
+window.addDetenido = addDetenido;
+
+const getDetenidos = () => {
+    const container = document.getElementById('detenidosContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'detFiliacion', valueField: 'filiacionDelito' },
+        { idPrefix: 'detNac', valueField: 'nacionalidad' },
+        { idPrefix: 'detFecha', valueField: 'fechaDetencion' },
+        { idPrefix: 'detOrdinal', valueField: 'ordinal' }
+    ]);
+};
+window.getDetenidos = getDetenidos;
+
+const addDetenidoPrevisto = (data = {}) => {
+    const container = document.getElementById('detenidosPrevistosContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'detPrevFiliacion', label: 'Filiación Delito', valueField: 'filiacionDelito' },
+        { idPrefix: 'detPrevNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+        { idPrefix: 'detPrevFecha', label: 'Fecha Prevista', type: 'date', valueField: 'fechaDetencion' },
+        { idPrefix: 'detPrevOrdinal', label: 'Ordinal', valueField: 'ordinal' }
+    ], data);
+};
+window.addDetenidoPrevisto = addDetenidoPrevisto;
+
+const getDetenidosPrevistos = () => {
+    const container = document.getElementById('detenidosPrevistosContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'detPrevFiliacion', valueField: 'filiacionDelito' },
+        { idPrefix: 'detPrevNac', valueField: 'nacionalidad' },
+        { idPrefix: 'detPrevFecha', valueField: 'fechaDetencion' },
+        { idPrefix: 'detPrevOrdinal', valueField: 'ordinal' }
+    ]);
+};
+window.getDetenidosPrevistos = getDetenidosPrevistos;
+
+const addOtraPersona = (data = {}) => {
+    const container = document.getElementById('otrasPersonasContainer');
+    if (!container) return;
+    addDynamicItem(container, [
+        { idPrefix: 'otraFiliacion', label: 'Filiación', valueField: 'filiacion' },
+        { idPrefix: 'otraTipo', label: 'Tipo de Vinculación', valueField: 'tipoVinculacion' },
+        { idPrefix: 'otraNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+        { idPrefix: 'otraTelefono', label: 'Teléfono', valueField: 'telefono' }
+    ], data);
+};
+window.addOtraPersona = addOtraPersona;
+
+const getOtrasPersonas = () => {
+    const container = document.getElementById('otrasPersonasContainer');
+    if (!container) return [];
+    return getDynamicItems(container, [
+        { idPrefix: 'otraFiliacion', valueField: 'filiacion' },
+        { idPrefix: 'otraTipo', valueField: 'tipoVinculacion' },
+        { idPrefix: 'otraNac', valueField: 'nacionalidad' },
+        { idPrefix: 'otraTelefono', valueField: 'telefono' }
+    ]);
+};
+window.getOtrasPersonas = getOtrasPersonas;
 
 // --- VIEW RENDERING FUNCTIONS ---
 
