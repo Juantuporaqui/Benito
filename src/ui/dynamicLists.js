@@ -104,7 +104,6 @@ makePair(
   [
     { idPrefix: 'impNombre', label: 'Nombre', valueField: 'nombre' },
     { idPrefix: 'impNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
-    { idPrefix: 'impFechaExp', label: 'Fecha Expulsión', type: 'date', valueField: 'fechaExpulsion' },
   ],
 );
 makePair(
@@ -194,6 +193,54 @@ makePair(
       { idPrefix: dateId, label: 'Fecha Límite', type: 'date', valueField: 'fechaLimite' },
     ],
   ),
+);
+
+// CIE adicionales
+makePair(
+  'addInternoNacionalidad',
+  'getInternosNacionalidad',
+  'internosNacionalidadesContainer',
+  [
+    { idPrefix: 'intNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'intNum', label: 'Número', type: 'number', valueField: 'numero' },
+  ],
+);
+makePair(
+  'addIngreso',
+  'getIngresos',
+  'ingresosContainer',
+  [
+    { idPrefix: 'ingNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+    { idPrefix: 'ingNum', label: 'Número', type: 'number', valueField: 'numero' },
+  ],
+);
+makePair(
+  'addSalida',
+  'getSalidas',
+  'salidasContainer',
+  [
+    { idPrefix: 'salDestino', label: 'Destino', valueField: 'destino' },
+    { idPrefix: 'salNum', label: 'Número', type: 'number', valueField: 'numero' },
+  ],
+);
+
+// Grupo 4 nuevos
+makePair(
+  'addColaboracionG4',
+  'getColaboracionesG4',
+  'colaboracionesG4Container',
+  [
+    { idPrefix: 'colG4Desc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+makePair(
+  'addDetenidoG4',
+  'getDetenidosG4',
+  'detenidosG4Container',
+  [
+    { idPrefix: 'detG4Motivo', label: 'Motivo', valueField: 'motivo' },
+    { idPrefix: 'detG4Nac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+  ],
 );
 
 // Grupo 2/3 – todos los helpers largos
@@ -319,6 +366,12 @@ export const {
   getPuertoPendientes,
   addCIEPendiente,
   getCIEPendientes,
+    addInternoNacionalidad,
+  getInternosNacionalidad,
+  addIngreso,
+  getIngresos,
+  addSalida,
+  getSalidas,
   addGestionPendiente,
   getGestionPendientes,
   addCecorexPendiente,
@@ -337,8 +390,12 @@ export const {
   getSolicitudesJudiciales,
   addColaboracion,
   getColaboraciones,
+   addColaboracionG4,
+  getColaboracionesG4,
   addDetenido,
   getDetenidos,
+  addDetenidoG4,
+  getDetenidosG4,
   addDetenidoPrevisto,
   getDetenidosPrevistos,
   addOtraPersona,
