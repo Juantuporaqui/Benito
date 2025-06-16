@@ -77,6 +77,7 @@ function getDynamicItems(container, fields) {
 /* ═════════════════════════════════════════════════════
    Factoría: genera pares add*/get* con muy poco código
    ════════════════════════════════════════════════════ */
+      
 const api = {};
 function makePair(addName, getName, containerId, fieldDefs) {
   const addFn = (d = {}) => {
