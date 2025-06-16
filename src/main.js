@@ -2297,6 +2297,41 @@ const setupStatisticsEventListeners = () => {
     document.getElementById('addTaskBtn').addEventListener('click', addGeneralPendingTask);
 };
 
+
+const showAuthError = (error) => {
+    mainContent().innerHTML = `
+        <div class="text-center p-8 text-red-500">
+            <h2 class="text-xl font-bold">Error de Autenticación de Firebase</h2>
+            <p class="mt-2">La aplicación no pudo iniciar sesión. Por favor, asegúrate de que el <strong>método de inicio de sesión anónimo</strong> está habilitado en tu proyecto Firebase (Autenticación > Método de inicio de sesión).</p>
+            <p class="mt-2">También, verifica las <strong>Reglas de Seguridad de Firestore</strong> para permitir la lectura y escritura para usuarios autenticados en la ruta de tu colección (<code>artifacts/{appId}/users/{userId}/{document**}</code>).</p>
+            <p class="mt-2"><b>Error de Firebase:</b> ${error.message}</p>
+        </div>`;
+};
+
+const showFirebaseConfigError = (e) => {
+    mainContent().innerHTML = `
+        <div class="text-center p-8 text-red-500">
+            <h2 class="text-xl font-bold">Error de Configuración de Firebase</h2>
+            <p class="mt-2">La aplicación no se pudo iniciar. Revisa la configuración de Firebase en el código.</p>
+            <p class="mt-2"><b>Error de Firebase:</b> ${e.message}</p>
+        </div>`;
+};
+
+const authenticateAndRenderMenu = async () => {
+    try {
+        if (typeof __initial_auth_token !== 'undefined') {
+            await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+            await signInAnonymously(auth);
+        }
+        userId = auth.currentUser?.uid || crypto.randomUUID();
+        console.log("Authenticated anonymously or with token:", userId);
+        renderMenu();
+    } catch (error) {
+        console.error("Authentication failed:", error);
+        showAuthError(error);
+    }
+};
 // --- INITIALIZATION ---
 
 const init = () => {
@@ -2309,33 +2344,9 @@ const init = () => {
                 console.log("User authenticated:", userId);
                 renderMenu();
             } else {
-                try {
-                    if (typeof __initial_auth_token !== 'undefined') {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    userId = auth.currentUser?.uid || crypto.randomUUID(); 
-                    console.log("Authenticated anonymously or with token:", userId);
-                    renderMenu();
-                } catch (error) {
-                    console.error("Authentication failed:", error);
-                    mainContent().innerHTML = `<div class="text-center p-8 text-red-500">
-                        <h2 class="text-xl font-bold">Error de Autenticación de Firebase</h2>
-                        <p class="mt-2">La aplicación no pudo iniciar sesión. Por favor, asegúrate de que el **método de inicio de sesión anónimo** está habilitado en tu proyecto Firebase (Autenticación > Método de inicio de sesión).</p>
-                        <p class="mt-2">También, verifica las **Reglas de Seguridad de Firestore** para permitir la lectura y escritura para usuarios autenticados en la ruta de tu colección (<code>artifacts/{appId}/users/{userId}/{document=**}</code>).</p>
-                        <p class="mt-2"><b>Error de Firebase:</b> ${error.message}</p>
-                    </div>`;
-                }
-            }
-        });
+                await authenticateAndRenderMenu();
+               showFirebaseConfigError(e);
 
-    } catch (e) {
-        console.error("Firebase initialization failed:", e);
-        mainContent().innerHTML = `<div class="text-center p-8 text-red-500">
-            <h2 class="text-xl font-bold">Error de Configuración de Firebase</h2>
- <p class="mt-2">La aplicación no se pudo iniciar. Revisa la configuración de Firebase en el código.</p>            <p class="mt-2"><b>Error de Firebase:</b> ${e.message}</p>
-        </div>`;
         return;
     }
 
