@@ -107,6 +107,38 @@ export async function addRelatedItem (opId, subCol, data) {
 }
 
 // ---------------------------------------------------------------------------
-// completar tarea, tareas globales, etc.  (idénticos al original)
-// Copia-pega aquí las funciones: completePendingTask, fetchGlobalPendingTasks
+// completar tarea, tareas globales, etc.
 // ---------------------------------------------------------------------------
+export async function completePendingTask (taskId, isOperationTask = false, opId = null) {
+  if (!userId) throw new Error('No auth');
+  showSpinner(true);
+  try {
+    let taskRef;
+    if (isOperationTask && opId) {
+      taskRef = doc(db, `artifacts/${appId}/operations`, opId, 'pendingTasks', taskId);
+    } else {
+      taskRef = doc(db, `artifacts/${appId}/pendingTasks`, taskId);
+    }
+    await setDoc(taskRef, { estado: 'Completado' }, { merge: true });
+  } catch (e) {
+    console.error('Error completing task:', e);
+    throw e;
+  } finally {
+    showSpinner(false);
+  }
+}
+
+export async function fetchGlobalPendingTasks () {
+  if (!userId) return [];
+  showSpinner(true);
+  try {
+    const q = query(
+      collection(db, `artifacts/${appId}/pendingTasks`),
+      where('estado', '==', 'Pendiente')
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  } finally {
+    showSpinner(false);
+  }
+}
