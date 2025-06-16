@@ -1385,11 +1385,6 @@ const saveSpecificDoc = async (collectionName, dataMapping) => {
     }
 };
 
- const pendSel = document.getElementById('pendiente');
-    const pendDet = document.getElementById('pendienteDetalles');
-    if (pendSel) pendSel.value = '';
-    if (pendDet) pendDet.classList.add('hidden');
-
 /**
  * Resetea el formulario simplificado.
  */
@@ -1401,6 +1396,11 @@ const resetSpecificForm = async (collectionName) => {
     });
     if (document.getElementById('anio'))  document.getElementById('anio').value = new Date().getFullYear();
     if (document.getElementById('fecha')) document.getElementById('fecha').value = formatDate(new Date());
+    
+    const pendSel = document.getElementById('pendiente');
+    const pendDet = document.getElementById('pendienteDetalles');
+    if (pendSel) pendSel.value = '';
+    if (pendDet) pendDet.classList.add('hidden');
 
     // Limpiar listas dinámicas
     [
