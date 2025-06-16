@@ -75,7 +75,7 @@ function getDynamicItems(container, fields) {
 }
 
 /* ═════════════════════════════════════════════════════
-   Factoría: genera pares add*/get* con muy poco código
+   Factoría: genera pares add y get con muy poco código
    ════════════════════════════════════════════════════ */
       
 const api = {};
