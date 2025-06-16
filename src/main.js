@@ -456,6 +456,74 @@ window.addGrupoPendiente=addGrupoPendiente;
 const getGrupoPendientes=()=>getBasicListItems('grupoPendientesList');
 window.getGrupoPendientes=getGrupoPendientes;
 
+// Expulsados
+const addExpulsado = (data={})=>{
+    const c=document.getElementById('expulsadosContainer');
+    if(!c)return;
+    addDynamicItem(c,[
+        {idPrefix:'expNombre',label:'Nombre',valueField:'nombre'},
+        {idPrefix:'expNac',label:'Nacionalidad',valueField:'nacionalidad'}
+    ],data);
+};
+window.addExpulsado=addExpulsado;
+const getExpulsados=()=>{
+    const c=document.getElementById('expulsadosContainer');
+    if(!c)return[];
+    return getDynamicItems(c,[
+        {idPrefix:'expNombre',valueField:'nombre'},
+        {idPrefix:'expNac',valueField:'nacionalidad'}
+    ]);
+};
+window.getExpulsados=getExpulsados;
+
+// Fletados
+const addFletado = (data={})=>{
+    const c=document.getElementById('fletadosContainer');
+    if(!c)return;
+    addDynamicItem(c,[
+        {idPrefix:'fletDestino',label:'Destino',valueField:'destino'},
+        {idPrefix:'fletPax',label:'Pax',type:'number',valueField:'pax'}
+    ],data);
+};
+window.addFletado=addFletado;
+const getFletados=()=>{
+    const c=document.getElementById('fletadosContainer');
+    if(!c)return[];
+    return getDynamicItems(c,[
+        {idPrefix:'fletDestino',valueField:'destino'},
+        {idPrefix:'fletPax',valueField:'pax'}
+    ]);
+};
+window.getFletados=getFletados;
+
+// Conducciones Positivas
+const addConduccionPositiva=(data={})=>{
+    const c=document.getElementById('conduccionesPositivasContainer');
+    if(!c)return;
+    addDynamicItem(c,[{idPrefix:'cpDesc',label:'Descripción',valueField:'descripcion'}],data);
+};
+window.addConduccionPositiva=addConduccionPositiva;
+const getConduccionesPositivas=()=>{
+    const c=document.getElementById('conduccionesPositivasContainer');
+    if(!c)return[];
+    return getDynamicItems(c,[{idPrefix:'cpDesc',valueField:'descripcion'}]);
+};
+window.getConduccionesPositivas=getConduccionesPositivas;
+
+// Conducciones Negativas
+const addConduccionNegativa=(data={})=>{
+    const c=document.getElementById('conduccionesNegativasContainer');
+    if(!c)return;
+    addDynamicItem(c,[{idPrefix:'cnDesc',label:'Descripción',valueField:'descripcion'}],data);
+};
+window.addConduccionNegativa=addConduccionNegativa;
+const getConduccionesNegativas=()=>{
+    const c=document.getElementById('conduccionesNegativasContainer');
+    if(!c)return[];
+    return getDynamicItems(c,[{idPrefix:'cnDesc',valueField:'descripcion'}]);
+};
+window.getConduccionesNegativas=getConduccionesNegativas;
+
 const addPersonaImplicadaG4 = (data={})=>{
     const c=document.getElementById('personasImplicadasG4Container');
     if(!c)return;
@@ -646,6 +714,32 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <input type="date" id="impFechaExp" class="rounded border px-2 py-1">
                     <button onclick="addPersonaImplicada()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
                 </div>
+                               <h4 class="mt-6 mb-2 font-semibold">Expulsados</h4>
+                <div id="expulsadosContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="expNombre" placeholder="Nombre" class="rounded border px-2 py-1">
+                    <input type="text" id="expNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
+                    <button onclick="addExpulsado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Fletados</h4>
+                <div id="fletadosContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="fletDestino" placeholder="Destino" class="rounded border px-2 py-1">
+                    <input type="number" id="fletPax" placeholder="Pax" class="rounded border px-2 py-1">
+                    <button onclick="addFletado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Conducciones Positivas</h4>
+                <div id="conduccionesPositivasContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
+                    <input type="text" id="cpDesc" placeholder="Descripción" class="rounded border px-2 py-1">
+                    <button onclick="addConduccionPositiva()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Conducciones Negativas</h4>
+                <div id="conduccionesNegativasContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
+                    <input type="text" id="cnDesc" placeholder="Descripción" class="rounded border px-2 py-1">
+                    <button onclick="addConduccionNegativa()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
                 <div class="mb-4">
                     <label for="incidenciasResistencias">Incidencias/Resistencias</label>
                     <textarea id="incidenciasResistencias" class="w-full rounded border px-2 py-1" rows="2"></textarea>
@@ -671,6 +765,10 @@ const renderSpecificGroupForm = async (groupKey) => {
                 nombreActuacion: 'nombreActuacion',
                 diligenciasActuaciones: 'diligenciasActuaciones',
                 personasImplicadas: getPersonasImplicadas,
+                              expulsados: getExpulsados,
+                fletados: getFletados,
+                conduccionesPositivas: getConduccionesPositivas,
+                conduccionesNegativas: getConduccionesNegativas,
                 incidenciasResistencias: 'incidenciasResistencias',
                 observacionesAnotaciones: 'observacionesAnotaciones',
                 grupoPendientes: getGrupoPendientes
@@ -1055,7 +1153,7 @@ const renderSpecificGroupForm = async (groupKey) => {
             </div>
         </div>`;
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex') {
+    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
         searchSection = `
         <div class="bg-white p-4 rounded shadow border-blue-300 border">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -1094,7 +1192,7 @@ const renderSpecificGroupForm = async (groupKey) => {
     const newBtn  = document.getElementById('newDocBtn');
     if (newBtn) newBtn.addEventListener('click', () => resetSpecificForm(colName));
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex') {
+    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
         const loadDateBtn = document.getElementById('loadDateBtn');
         if (loadDateBtn) {
             loadDateBtn.addEventListener('click', () => {
@@ -1162,6 +1260,10 @@ const loadSpecificDoc = async (collectionName, dataMapping) => {
                 let containerId = '';
                 switch(key) {
                     case 'personasImplicadas':         containerId = 'personasImplicadasContainer'; break;
+                    case 'expulsados':                containerId = 'expulsadosContainer'; break;
+                    case 'fletados':                  containerId = 'fletadosContainer'; break;
+                    case 'conduccionesPositivas':     containerId = 'conduccionesPositivasContainer'; break;
+                    case 'conduccionesNegativas':     containerId = 'conduccionesNegativasContainer'; break;
                     case 'grupoPendientes':            containerId = 'grupoPendientesList';         break;
                     case 'personasImplicadasG4':       containerId = 'personasImplicadasG4Container';break;
                     case 'grupo4Pendientes':           containerId = 'grupo4PendientesList';        break;
@@ -1222,6 +1324,10 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
             } else if (typeof mp === 'function') {
                 const containerMap = {
                     personasImplicadas: 'personasImplicadasContainer',
+                                      expulsados: 'expulsadosContainer',
+                    fletados: 'fletadosContainer',
+                    conduccionesPositivas: 'conduccionesPositivasContainer',
+                    conduccionesNegativas: 'conduccionesNegativasContainer',
                     grupoPendientes: 'grupoPendientesList',
                     personasImplicadasG4: 'personasImplicadasG4Container',
                     grupo4Pendientes: 'grupo4PendientesList',
@@ -1308,6 +1414,8 @@ const resetSpecificForm = async (collectionName) => {
     // Limpiar listas dinámicas
     [
         'personasImplicadasContainer','grupoPendientesList',
+        'expulsadosContainer','fletadosContainer',
+        'conduccionesPositivasContainer','conduccionesNegativasContainer',
         'personasImplicadasG4Container','grupo4PendientesList',
         'puertoPendientesList','ciePendientesList',
         'gestionPendientesList','cecorexPendientesList'
