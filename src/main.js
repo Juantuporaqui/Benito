@@ -1,24 +1,13 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { initFirebase, db, auth } from './firebase.js';
+import { signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from './utils.js';
 
 // --- Firebase Configuration ---
 // Your Firebase project configuration provided by the user.
-const firebaseConfig = {
-    apiKey: "AIzaSyDTvriR7KjlAINO44xhDDvIDlc4T_4nilo",
-    authDomain: "ucrif-5bb75.firebaseapp.com",
-    projectId: "ucrif-5bb75",
-    storageBucket: "ucrif-5bb75.firebasestorage.app",
-    messagingSenderId: "241698436443",
-    appId: "1:241698436443:web:1f333b3ae3f813b755167e",
-    measurementId: "G-S2VPQNWZ21"
-};
-
 // Global variables for app_id and userId
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 let userId = null; // Will be set after authentication
-
-let db, auth;
 
 // --- App State ---
 let currentView = 'menu';
@@ -44,35 +33,8 @@ const groups = {
     'cecorex': { name: 'CECOREX', description: 'Centro Coordinación', icon: '📞', collection: 'cecorexCoordinacion' }
 };
 
-// --- UTILITY FUNCTIONS ---
-const formatDate = (date) => {
-    if (!date) return '';
-    const d = date instanceof Timestamp ? date.toDate() : new Date(date);
-    // Ensure format is ISO-YYYY-MM-DD for input type="date"
-    return d.toISOString().split('T')[0];
-};
-const formatDateTime = (date) => {
-    if (!date) return '';
-    const d = date instanceof Timestamp ? date.toDate() : new Date(date);
-    return d.toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-};
-const showSpinner = (show) => {
-    const spinner = document.getElementById('spinner');
-    if (spinner) spinner.style.display = show ? 'flex' : 'none';
-};
-const showStatus = (message, isError = false) => {
-    const statusDiv = document.getElementById('status-message');
-    if (statusDiv) {
-        statusDiv.textContent = message;
-        statusDiv.className = `my-2 font-semibold ${isError ? 'text-red-600' : 'text-green-600'}`;
-        setTimeout(() => { if (statusDiv) statusDiv.textContent = ''; }, 4000);
-    }
-};
-
-// Helper to remove a dynamic item from a list (exposed globally for HTML onclick)
-window.removeDynamicItem = (buttonElement) => {
-    buttonElement.closest('.dynamic-list-item').remove();
-};
+// Expose the helper to HTML
+window.removeDynamicItem = removeDynamicItem;
 
 // --- FIRESTORE GENERIC FUNCTIONS ---
 
@@ -1920,9 +1882,7 @@ const setupStatisticsEventListeners = () => {
 
 const init = () => {
     try {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
+         initFirebase();
         
         onAuthStateChanged(auth, async (user) => { 
             if (user) {
@@ -1955,8 +1915,7 @@ const init = () => {
         console.error("Firebase initialization failed:", e);
         mainContent().innerHTML = `<div class="text-center p-8 text-red-500">
             <h2 class="text-xl font-bold">Error de Configuración de Firebase</h2>
-            <p class="mt-2">La aplicación no se pudo iniciar. Por favor, asegúrate de que la configuración de Firebase (<code>firebaseConfig</code>) en el código HTML es correcta y corresponde a tu proyecto.</p>
-            <p class="mt-2"><b>Error de Firebase:</b> ${e.message}</p>
+ <p class="mt-2">La aplicación no se pudo iniciar. Revisa la configuración de Firebase en el código.</p>            <p class="mt-2"><b>Error de Firebase:</b> ${e.message}</p>
         </div>`;
         return;
     }
