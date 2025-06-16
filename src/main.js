@@ -724,46 +724,120 @@ const renderSpecificGroupForm = async (groupKey) => {
         case 'puerto':
             formFields = `
                 ${baseFields}
-                <div class="mb-4">
-                    <label for="tipoControl">Tipo de Control</label>
-                    <input type="text" id="tipoControl" placeholder="Barco, Mercancía, Viajeros" class="w-full rounded border px-2 py-1">
+                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="carnet">Carnet (6 dígitos)</label>
+                        <input type="text" id="carnet" maxlength="6" pattern="\\d{6}" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="funcionario">Funcionario</label>
+                        <input type="text" id="funcionario" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
                 <div class="mb-4">
-                    <label for="incidenciasResultados">Incidencias/Resultados</label>
-                    <textarea id="incidenciasResultados" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                    <label for="tipoControl">Tipo de control</label>
+                    <select id="tipoControl" class="w-full rounded border px-2 py-1">
+                        <option value="">--Seleccione--</option>
+                        <option>Control embarque</option>
+                        <option>Control desembarque</option>
+                        <option>Inspección buque</option>
+                        <option>Crucero</option>
+                        <option>Ferri entrada/salida</option>
+                        <option>Puerto deportivo</option>
+                        <option>Otras actuaciones</option>
+                    </select>
                 </div>
-                <div class="mb-4">
-                    <label for="nacionalidadesImplicadas">Nacionalidades Implicadas</label>
-                    <textarea id="nacionalidadesImplicadas" class="w-full rounded border px-2 py-1" rows="2"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label for="diligenciasRealizadasPuerto">Diligencias Realizadas</label>
-                    <textarea id="diligenciasRealizadasPuerto" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="marinosArgos">Marinos chequeados en Argos</label>
+                        <input type="number" id="marinosArgos" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="controlPasaportesMarinos">Control pasaportes marinos</label>
+                        <input type="number" id="controlPasaportesMarinos" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="cruceros">Cruceros</label>
+                        <input type="number" id="cruceros" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="cruceristas">Cruceristas</label>
+                        <input type="number" id="cruceristas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="visadosValencia">Visados Valencia</label>
+                        <input type="number" id="visadosValencia" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="visadosCG">Visados CG</label>
+                        <input type="number" id="visadosCG" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="culminadosEISICS">Culminados EISICS</label>
+                        <input type="number" id="culminadosEISICS" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ferriEntradaSalida">Ferri entrada/salida (pasajeros/vehículos)</label>
+                        <input type="text" id="ferriEntradaSalida" maxlength="12" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="entradasExcepcionales">Entradas excepcionales</label>
+                        <input type="number" id="entradasExcepcionales" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="puertoDeportivo">Puerto deportivo</label>
+                        <input type="number" id="puertoDeportivo" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="denegaciones">Denegaciones</label>
+                        <input type="number" id="denegaciones" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
                 <div class="mb-4">
                     <label for="observacionesPuerto">Observaciones</label>
-                    <textarea id="observacionesPuerto" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                    <textarea id="observacionesPuerto" class="w-full rounded border px-2 py-1" rows="2"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="archivo">Documentos/Imágenes</label>
+                    <input type="file" id="archivo" multiple class="w-full">
+                </div>
+                <div class="mb-4 border-t pt-4">
+                    <label for="pendiente"><b>¿Queda alguna tarea pendiente?</b></label>
+                    <select id="pendiente" class="w-full rounded border px-2 py-1">
+                        <option value="">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                    <div id="pendienteDetalles" class="mt-4 hidden">
+                        <label for="pendienteDescripcion">Descripción de la tarea pendiente</label>
+                        <input type="text" id="pendienteDescripcion" class="w-full rounded border px-2 py-1">
+                        <label for="pendienteFecha" class="mt-2">Fecha límite (alerta)</label>
+                        <input type="date" id="pendienteFecha" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
             `;
-            dynamicAdders = `
-                <h4 class="mt-6 mb-2 font-semibold">Pendientes de Gestión</h4>
-                <ul id="puertoPendientesList" class="list-disc pl-5 mb-4 max-h-40 overflow-y-auto"></ul>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                    <input type="text" id="puertoPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                    <input type="date" id="puertoPendDate" class="rounded border px-2 py-1">
-                    <button onclick="addPuertoPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-            `;
+            dynamicAdders = ``;
             dataMap = {
                 fecha: 'fecha',
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
+                carnet: 'carnet',
+                funcionario: 'funcionario',
                 tipoControl: 'tipoControl',
-                incidenciasResultados: 'incidenciasResultados',
-                nacionalidadesImplicadas: 'nacionalidadesImplicadas',
-                diligenciasRealizadas: 'diligenciasRealizadasPuerto',
+                marinosArgos: 'marinosArgos',
+                controlPasaportesMarinos: 'controlPasaportesMarinos',
+                cruceros: 'cruceros',
+                cruceristas: 'cruceristas',
+                visadosValencia: 'visadosValencia',
+                visadosCG: 'visadosCG',
+                culminadosEISICS: 'culminadosEISICS',
+                ferriEntradaSalida: 'ferriEntradaSalida',
+                entradasExcepcionales: 'entradasExcepcionales',
+                puertoDeportivo: 'puertoDeportivo',
+                denegaciones: 'denegaciones',
                 observaciones: 'observacionesPuerto',
-                puertoPendientes: getPuertoPendientes
+                pendiente: 'pendiente',
+                pendienteDescripcion: 'pendienteDescripcion',
+                pendienteFecha: 'pendienteFecha'
             };
             break;
 
