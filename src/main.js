@@ -708,45 +708,11 @@ const renderSpecificGroupForm = async (groupKey) => {
                 </div>
                 <h4 class="mt-6 mb-2 font-semibold">Personas Implicadas</h4>
                 <div id="personasImplicadasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="impNombre" placeholder="Nombre" class="rounded border px-2 py-1">
                     <input type="text" id="impNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
-                    <input type="date" id="impFechaExp" class="rounded border px-2 py-1">
                     <button onclick="addPersonaImplicada()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-                               <h4 class="mt-6 mb-2 font-semibold">Expulsados</h4>
-                <div id="expulsadosContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
-                    <input type="text" id="expNombre" placeholder="Nombre" class="rounded border px-2 py-1">
-                    <input type="text" id="expNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
-                    <button onclick="addExpulsado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-                <h4 class="mt-6 mb-2 font-semibold">Fletados</h4>
-                <div id="fletadosContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
-                    <input type="text" id="fletDestino" placeholder="Destino" class="rounded border px-2 py-1">
-                    <input type="number" id="fletPax" placeholder="Pax" class="rounded border px-2 py-1">
-                    <button onclick="addFletado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-                <h4 class="mt-6 mb-2 font-semibold">Conducciones Positivas</h4>
-                <div id="conduccionesPositivasContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
-                    <input type="text" id="cpDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                    <button onclick="addConduccionPositiva()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-                <h4 class="mt-6 mb-2 font-semibold">Conducciones Negativas</h4>
-                <div id="conduccionesNegativasContainer" class="mb-2 border border-blue-500 rounded p-2 max-h-40 overflow-y-auto"></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
-                    <input type="text" id="cnDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-                    <button onclick="addConduccionNegativa()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-                </div>
-                <div class="mb-4">
-                    <label for="incidenciasResistencias">Incidencias/Resistencias</label>
-                    <textarea id="incidenciasResistencias" class="w-full rounded border px-2 py-1" rows="2"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label for="observacionesAnotaciones">Observaciones</label>
-                    <textarea id="observacionesAnotaciones" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                
                 </div>
             `;
             dynamicAdders = `
@@ -765,12 +731,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                 nombreActuacion: 'nombreActuacion',
                 diligenciasActuaciones: 'diligenciasActuaciones',
                 personasImplicadas: getPersonasImplicadas,
-                              expulsados: getExpulsados,
-                fletados: getFletados,
-                conduccionesPositivas: getConduccionesPositivas,
-                conduccionesNegativas: getConduccionesNegativas,
-                incidenciasResistencias: 'incidenciasResistencias',
-                observacionesAnotaciones: 'observacionesAnotaciones',
                 grupoPendientes: getGrupoPendientes
             };
             break;
@@ -779,23 +739,37 @@ const renderSpecificGroupForm = async (groupKey) => {
             formFields = `
                 ${baseFields}
                 <div class="mb-4">
-                    <label for="nombreActuacionG4">Nombre Actuación</label>
-                    <input type="text" id="nombreActuacionG4" class="w-full rounded border px-2 py-1">
+                                       <label for="identificados">Identificados</label>
+                    <input type="number" id="identificados" min="0" value="0" class="w-full rounded border px-2 py-1">
                 </div>
-                <div class="mb-4">
-                    <label for="diligenciasActuacionesG4">Diligencias/Actuaciones</label>
-                    <textarea id="diligenciasActuacionesG4" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                <h4 class="mt-6 mb-2 font-semibold">Colaboraciones otros grupos</h4>
+                <div id="colaboracionesG4Container" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
+                    <input type="text" id="colG4Desc" placeholder="Descripción" class="rounded border px-2 py-1">
+                    <button onclick="addColaboracionG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
                 </div>
-                <h4 class="mt-6 mb-2 font-semibold">Personas Implicadas</h4>
-                <div id="personasImplicadasG4Container" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <h4 class="mt-6 mb-2 font-semibold">Detenidos</h4>
+                <div id="detenidosG4Container" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
-                    <input type="text" id="impG4Nombre" placeholder="Nombre" class="rounded border px-2 py-1">
-                    <input type="text" id="impG4Rol" placeholder="Rol" class="rounded border px-2 py-1">
-                    <button onclick="addPersonaImplicadaG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <input type="text" id="detG4Motivo" placeholder="Motivo" class="rounded border px-2 py-1">
+                    <input type="text" id="detG4Nac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
+                    <button onclick="addDetenidoG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
                 </div>
                 <div class="mb-4">
-                    <label for="observacionesAnotacionesG4">Observaciones</label>
-                    <textarea id="observacionesAnotacionesG4" class="w-full rounded border px-2 py-1" rows="3"></textarea>
+                    <label for="citados">Citados</label>
+                    <input type="number" id="citados" min="0" value="0" class="w-full rounded border px-2 py-1">
+                </div>
+                <div class="mb-4">
+                    <label for="otrasGestiones">Otras gestiones</label>
+                    <textarea id="otrasGestiones" class="w-full rounded border px-2 py-1" rows="2"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="inspeccionesTrabajo">Inspecciones trabajo</label>
+                    <input type="number" id="inspeccionesTrabajo" min="0" value="0" class="w-full rounded border px-2 py-1">
+                </div>
+                <div class="mb-4">
+                    <label for="otrasInspecciones">Otras inspecciones</label>
+                    <input type="number" id="otrasInspecciones" min="0" value="0" class="w-full rounded border px-2 py-1">
                 </div>
             `;
             dynamicAdders = `
@@ -811,27 +785,22 @@ const renderSpecificGroupForm = async (groupKey) => {
                 fecha: 'fecha',
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
-                nombreActuacion: 'nombreActuacionG4',
-                diligenciasActuaciones: 'diligenciasActuacionesG4',
-                personasImplicadas: getPersonasImplicadasG4,
-                observacionesAnotaciones: 'observacionesAnotacionesG4',
+                               identificados: 'identificados',
+                colaboracionesOtrosGrupos: getColaboracionesG4,
+                detenidos: getDetenidosG4,
+                citados: 'citados',
+                otrasGestiones: 'otrasGestiones',
+                inspeccionesTrabajo: 'inspeccionesTrabajo',
+                otrasInspecciones: 'otrasInspecciones',
                 grupo4Pendientes: getGrupo4Pendientes
             };
             break;
 
         case 'puerto':
             formFields = `
-                ${baseFields}
-                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="carnet">Carnet (6 dígitos)</label>
-                        <input type="text" id="carnet" maxlength="6" pattern="\\d{6}" class="w-full rounded border px-2 py-1">
-                    </div>
-                    <div>
-                        <label for="funcionario">Funcionario</label>
-                        <input type="text" id="funcionario" class="w-full rounded border px-2 py-1">
-                    </div>
-                </div>
+                <input type="hidden" id="fecha">
+                <input type="hidden" id="anio">
+
                 <div class="mb-4">
                     <label for="tipoControl">Tipo de control</label>
                     <select id="tipoControl" class="w-full rounded border px-2 py-1">
@@ -930,8 +899,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                 fecha: 'fecha',
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
-                carnet: 'carnet',
-                funcionario: 'funcionario',
                 tipoControl: 'tipoControl',
                 marinosArgos: 'marinosArgos',
                 controlPasaportesMarinos: 'controlPasaportesMarinos',
@@ -959,6 +926,31 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="mb-4">
                     <label for="tipoActuacion">Tipo de Actuación</label>
                     <input type="text" id="tipoActuacion" placeholder="Admisión, Visita, Traslado" class="w-full rounded border px-2 py-1">
+                </div>
+                               <div class="mb-4">
+                    <label for="totalInternos">Nº internos total</label>
+                    <input type="number" id="totalInternos" min="0" value="0" class="w-full rounded border px-2 py-1">
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Internos por nacionalidad</h4>
+                <div id="internosNacionalidadesContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="intNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
+                    <input type="number" id="intNum" placeholder="Número" class="rounded border px-2 py-1">
+                    <button onclick="addInternoNacionalidad()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Ingresos</h4>
+                <div id="ingresosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="ingNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
+                    <input type="number" id="ingNum" placeholder="Número" class="rounded border px-2 py-1">
+                    <button onclick="addIngreso()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Salidas</h4>
+                <div id="salidasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="salDestino" placeholder="Destino" class="rounded border px-2 py-1">
+                    <input type="number" id="salNum" placeholder="Número" class="rounded border px-2 py-1">
+                    <button onclick="addSalida()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
                 </div>
                 <div class="mb-4">
                     <label for="nombrePersonaCIE">Nombre de la Persona</label>
@@ -990,7 +982,11 @@ const renderSpecificGroupForm = async (groupKey) => {
                 fecha: 'fecha',
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
-                tipoActuacion: 'tipoActuacion',
+                tipoActuacion: 'tipoActuacion',   
+                totalInternos: 'totalInternos',
+                internosNacionalidad: getInternosNacionalidad,
+                ingresos: getIngresos,
+                salidas: getSalidas,
                 nombrePersonaCIE: 'nombrePersonaCIE',
                 nacionalidadPersonaCIE: 'nacionalidadPersonaCIE',
                 motivoCIE: 'motivoCIE',
@@ -1001,8 +997,9 @@ const renderSpecificGroupForm = async (groupKey) => {
 
         case 'gestion':
             formFields = `
-                ${baseFields}
-                <div class="mb-4">
+                <input type="hidden" id="fecha">
+                <input type="hidden" id="anio">
+                <input type="hidden" id="descripcionBreve">                <div class="mb-4">
                     <label for="tipoTramite">Tipo de Trámite</label>
                     <input type="text" id="tipoTramite" placeholder="Asilo, Carta invitación" class="w-full rounded border px-2 py-1">
                 </div>
@@ -1013,6 +1010,32 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="mb-4">
                     <label for="descripcionTramite">Descripción Trámite</label>
                     <textarea id="descripcionTramite" class="w-full rounded border px-2 py-1" rows="2"></textarea>
+                </div>
+                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label for="menasGestion">MENAs</label>
+                        <input type="number" id="menasGestion" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="asilosGestion">Asilos</label>
+                        <input type="number" id="asilosGestion" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="citasOfertadas">Citas ofertadas</label>
+                        <input type="number" id="citasOfertadas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="cues">CUEs</label>
+                        <input type="number" id="cues" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="asignaciones">Asignaciones</label>
+                        <input type="number" id="asignaciones" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="protecciones">Protecciones</label>
+                        <input type="number" id="protecciones" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
                 </div>
                 <div class="mb-4">
                     <label for="observacionesGestion">Observaciones</label>
@@ -1035,6 +1058,12 @@ const renderSpecificGroupForm = async (groupKey) => {
                 tipoTramite: 'tipoTramite',
                 datosGestionado: 'datosGestionado',
                 descripcionTramite: 'descripcionTramite',
+                               menasGestion: 'menasGestion',
+                asilosGestion: 'asilosGestion',
+                citasOfertadas: 'citasOfertadas',
+                cues: 'cues',
+                asignaciones: 'asignaciones',
+                protecciones: 'protecciones',
                 observaciones: 'observacionesGestion',
                 gestionPendientes: getGestionPendientes
             };
@@ -1042,8 +1071,9 @@ const renderSpecificGroupForm = async (groupKey) => {
 
         case 'cecorex':
             formFields = `
-                ${baseFields}
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+               <input type="hidden" id="fecha">
+                <input type="hidden" id="anio">
+                <input type="hidden" id="descripcionBreve">                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label for="turno">Turno</label>
                         <select id="turno" class="w-full rounded border px-2 py-1">
@@ -1054,15 +1084,8 @@ const renderSpecificGroupForm = async (groupKey) => {
                             <option>Día completo</option>
                         </select>
                     </div>
-                    <div>
-                        <label for="carnet">Carnet (6 dígitos)</label>
-                        <input type="text" id="carnet" maxlength="6" pattern="\\d{6}" class="w-full rounded border px-2 py-1">
+                    
                     </div>
-                    <div>
-                        <label for="funcionario">Funcionario</label>
-                        <input type="text" id="funcionario" class="w-full rounded border px-2 py-1">
-                    </div>
-                </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
                         <label for="incoacciones">Incoacciones</label>
@@ -1121,8 +1144,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                 anio: 'anio',
                 descripcionBreve: 'descripcionBreve',
                 turno: 'turno',
-                carnet: 'carnet',
-                funcionario: 'funcionario',
                 incoacciones: 'incoacciones',
                 consultasTelefonicas: 'consultasTelefonicas',
                 consultasEquipo: 'consultasEquipo',
@@ -1321,7 +1342,12 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
                     conduccionesNegativas: 'conduccionesNegativasContainer',
                     grupoPendientes: 'grupoPendientesList',
                     personasImplicadasG4: 'personasImplicadasG4Container',
-                    grupo4Pendientes: 'grupo4PendientesList',
+                   grupo4Pendientes: 'grupo4PendientesList',
+                    colaboracionesOtrosGrupos: 'colaboracionesG4Container',
+                    detenidos: 'detenidosG4Container',
+                    internosNacionalidad: 'internosNacionalidadesContainer',
+                    ingresos: 'ingresosContainer',
+                    salidas: 'salidasContainer',
                     puertoPendientes: 'puertoPendientesList',
                     ciePendientes: 'ciePendientesList',
                     gestionPendientes: 'gestionPendientesList',
@@ -1408,6 +1434,8 @@ const resetSpecificForm = async (collectionName) => {
         'expulsadosContainer','fletadosContainer',
         'conduccionesPositivasContainer','conduccionesNegativasContainer',
         'personasImplicadasG4Container','grupo4PendientesList',
+        'colaboracionesG4Container','detenidosG4Container',
+        'internosNacionalidadesContainer','ingresosContainer','salidasContainer',
         'puertoPendientesList','ciePendientesList',
         'gestionPendientesList','cecorexPendientesList'
     ].forEach(id=>{
