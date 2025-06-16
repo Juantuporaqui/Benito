@@ -117,6 +117,47 @@ makePair(
   ],
 );
 
+// Expulsados
+makePair(
+  'addExpulsado',
+  'getExpulsados',
+  'expulsadosContainer',
+  [
+    { idPrefix: 'expNombre', label: 'Nombre', valueField: 'nombre' },
+    { idPrefix: 'expNac', label: 'Nacionalidad', valueField: 'nacionalidad' },
+  ],
+);
+
+// Fletados
+makePair(
+  'addFletado',
+  'getFletados',
+  'fletadosContainer',
+  [
+    { idPrefix: 'fletDestino', label: 'Destino', valueField: 'destino' },
+    { idPrefix: 'fletPax', label: 'Pax', type: 'number', valueField: 'pax' },
+  ],
+);
+
+// Conducciones
+makePair(
+  'addConduccionPositiva',
+  'getConduccionesPositivas',
+  'conduccionesPositivasContainer',
+  [
+    { idPrefix: 'cpDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+
+makePair(
+  'addConduccionNegativa',
+  'getConduccionesNegativas',
+  'conduccionesNegativasContainer',
+  [
+    { idPrefix: 'cnDesc', label: 'Descripción', valueField: 'descripcion', colSpan: 2 },
+  ],
+);
+
 // Grupo 4
 makePair(
   'addPersonaImplicadaG4',
@@ -262,6 +303,14 @@ export const {
   getPersonasImplicadas,
   addGrupoPendiente,
   getGrupoPendientes,
+  addExpulsado,
+  getExpulsados,
+  addFletado,
+  getFletados,
+  addConduccionPositiva,
+  getConduccionesPositivas,
+  addConduccionNegativa,
+  getConduccionesNegativas,
   addPersonaImplicadaG4,
   getPersonasImplicadasG4,
   addGrupo4Pendiente,
