@@ -582,7 +582,7 @@ const renderMenu = () => {
 /**
  * Navega a la vista adecuada según el grupo.
  */
-const navigateTo = (groupKey) => {
+const navigateTo = async (groupKey) => {
     currentGroup = groupKey;
     headerTitle().textContent = `UCRIF · ${groups[groupKey].name}`;
     backButton().classList.remove('hidden');
@@ -591,9 +591,9 @@ const navigateTo = (groupKey) => {
     if (groupKey === 'estadistica') {
         renderStatistics();
     } else if (groupKey === 'grupo2' || groupKey === 'grupo3') {
-        renderGroup2and3Form(groupKey);
+        await renderGroup2and3Form(groupKey);
     } else {
-        renderSpecificGroupForm(groupKey);
+        await renderSpecificGroupForm(groupKey);
     }
 };
 
@@ -777,8 +777,20 @@ const renderSpecificGroupForm = async (groupKey) => {
                         <input type="number" id="culminadosEISICS" min="0" value="0" class="w-full rounded border px-2 py-1">
                     </div>
                     <div>
-                        <label for="ferriEntradaSalida">Ferri entrada/salida (pasajeros/vehículos)</label>
-                        <input type="text" id="ferriEntradaSalida" maxlength="12" class="w-full rounded border px-2 py-1">
+                                               <label for="ferriEntradas">Ferry entradas</label>
+                        <input type="number" id="ferriEntradas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ferriSalidas">Ferry salidas</label>
+                        <input type="number" id="ferriSalidas" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ferriPasajeros">Ferry pasajeros</label>
+                        <input type="number" id="ferriPasajeros" min="0" value="0" class="w-full rounded border px-2 py-1">
+                    </div>
+                    <div>
+                        <label for="ferriVehiculos">Ferry vehículos</label>
+                        <input type="number" id="ferriVehiculos" min="0" value="0" class="w-full rounded border px-2 py-1">
                     </div>
                     <div>
                         <label for="entradasExcepcionales">Entradas excepcionales</label>
@@ -830,8 +842,10 @@ const renderSpecificGroupForm = async (groupKey) => {
                 visadosValencia: 'visadosValencia',
                 visadosCG: 'visadosCG',
                 culminadosEISICS: 'culminadosEISICS',
-                ferriEntradaSalida: 'ferriEntradaSalida',
-                entradasExcepcionales: 'entradasExcepcionales',
+               ferriEntradas: 'ferriEntradas',
+                ferriSalidas: 'ferriSalidas',
+                ferriPasajeros: 'ferriPasajeros',
+                ferriVehiculos: 'ferriVehiculos',                entradasExcepcionales: 'entradasExcepcionales',
                 puertoDeportivo: 'puertoDeportivo',
                 denegaciones: 'denegaciones',
                 observaciones: 'observacionesPuerto',
@@ -1338,7 +1352,7 @@ const resetGroup2and3Form = async (fetchOps = true) => {
 /**
  * Renderiza el formulario detallado para Grupo2/3.
  */
-const renderGroup2and3Form = (groupKey) => {
+const renderGroup2and3Form = async (groupKey) => {
     currentView = 'operationForm';
     const g = groups[groupKey];
     const colName = g.collection; // 'operaciones'
@@ -1597,7 +1611,7 @@ const renderGroup2and3Form = (groupKey) => {
     document.getElementById('addPendBtn').addEventListener('click', addPendingTaskToOperation);
     document.getElementById('generateReportBtn').addEventListener('click', generateOperationReport);
 
-    resetGroup2and3Form();
+    await resetGroup2and3Form();
 };
 
 /**
