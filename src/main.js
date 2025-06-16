@@ -1758,6 +1758,56 @@ const addGeneralPendingTask = async () => {
 };
 
 /**
+ * Genera un informe sencillo de la operación cargada en el formulario.
+ */
+const generateOperationReport = () => {
+    const data = {
+        codigo: document.getElementById('codigo')?.value.trim(),
+        anio: document.getElementById('anio')?.value.trim(),
+        nombre: document.getElementById('nombreOperacion')?.value.trim(),
+        descripcion: document.getElementById('descripcionBreve')?.value.trim(),
+        fechaInicio: document.getElementById('fechaInicioOperacion')?.value,
+        origen: document.getElementById('origen')?.value.trim(),
+        tipologia: document.getElementById('tipologiaDelictiva')?.value.trim(),
+        juzgadoInicial: document.getElementById('juzgadoInicialField')?.value.trim()
+    };
+
+    const chronology = Array.from(document.querySelectorAll('#chronologyList li'))
+        .map(li => li.textContent);
+    const pending = Array.from(document.querySelectorAll('#pendingList li'))
+        .map(li => li.textContent);
+
+    let html = `<h1>Informe de Operación</h1>`;
+    if (data.nombre) html += `<h2>${data.nombre}</h2>`;
+    html += `<p><strong>Código:</strong> ${data.codigo||''}/${data.anio||''}</p>`;
+    if (data.descripcion) html += `<p><strong>Descripción:</strong> ${data.descripcion}</p>`;
+    if (data.origen) html += `<p><strong>Origen:</strong> ${data.origen}</p>`;
+    if (data.tipologia) html += `<p><strong>Tipología:</strong> ${data.tipologia}</p>`;
+    if (data.fechaInicio) html += `<p><strong>Fecha Inicio:</strong> ${data.fechaInicio}</p>`;
+    if (data.juzgadoInicial) html += `<p><strong>Juzgado Inicial:</strong> ${data.juzgadoInicial}</p>`;
+
+    if (chronology.length) {
+        html += '<h3>Cronología</h3><ul>' +
+            chronology.map(c => `<li>${c}</li>`).join('') + '</ul>';
+    }
+    if (pending.length) {
+        html += '<h3>Tareas Pendientes</h3><ul>' +
+            pending.map(p => `<li>${p}</li>`).join('') + '</ul>';
+    }
+
+    const win = window.open('', '_blank');
+    if (win) {
+        win.document.write(`<!DOCTYPE html><html><head><title>Informe</title>` +
+            `<style>body{font-family:Arial,sans-serif;padding:20px;}h1,h2,h3{margin-top:1em;}</style>` +
+            `</head><body>${html}</body></html>`);
+        win.document.close();
+        win.focus();
+    } else {
+        alert('No se pudo abrir la ventana de informe.');
+    }
+};
+
+/**
  * Genera estadísticas.
  */
 const generateStats = async () => {
