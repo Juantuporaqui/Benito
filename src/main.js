@@ -1112,7 +1112,7 @@ const renderSpecificGroupForm = async (groupKey) => {
             pendSel.addEventListener('change', togglePend);
             togglePend();
         }
-        const pendSel = document.getElementById('pendiente');
+    const pendSel = document.getElementById('pendiente');
         const pendDet = document.getElementById('pendienteDetalles');
         if (pendSel && pendDet) {
             const togglePend = () => {
