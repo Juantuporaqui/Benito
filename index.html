@@ -1,55 +1,50 @@
-diff --git a//dev/null b/index.html
-index 0000000000000000000000000000000000000000..70951b62ecae349cfa23d4e2c16df22cb0aad608 100644
---- a//dev/null
-+++ b/index.html
-@@ -0,0 +1,50 @@
-+<!DOCTYPE html>
-+<html lang="es">
-+<head>
-+    <meta charset="UTF-8" />
-+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+    <title>UCRIF · Sistema de Novedades</title>
-+
-+    <!-- Tailwind CSS for styling -->
-+    <script src="https://cdn.tailwindcss.com"></script>
-+
-+    <!-- Google Fonts: Inter -->
-+    <link rel="preconnect" href="https://fonts.googleapis.com">
-+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-+
-+    <!-- Firebase SDK -->
-+    <link rel="stylesheet" href="style.css">
-+</head>
-+<body class="text-slate-800">
-+    <!-- Spinner Overlay -->
-+    <div id="spinner" class="fixed inset-0 z-50 flex-col items-center justify-center hidden">
-+        <div class="spinner-icon w-16 h-16 border-4 border-slate-200 rounded-full animate-spin"></div>
-+        <p class="mt-4 text-slate-600 font-semibold">Cargando...</p>
-+    </div>
-+
-+    <!-- Header -->
-+    <header class="bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-lg sticky top-0 z-40">
-+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-+            <div class="flex items-center justify-between h-16">
-+                <div class="flex items-center">
-+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg/1477px-Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg.png"
-+                         alt="Logo CNP"
-+                         class="h-10 w-auto bg-white p-1 rounded-md">
-+                    <h1 id="header-title" class="ml-4 text-lg md:text-xl font-semibold">UCRIF · Sistema de Novedades</h1>
-+                </div>
-+                <button id="back-button" class="hidden bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-4 rounded-lg transition">
-+                    &larr; Volver al Menú
-+                </button>
-+            </div>
-+        </div>
-+    </header>
-+
-+    <!-- Main Content Area -->
-+    <main id="main-content" class="py-6 md:py-10">
-+        <!-- Content will be rendered here by JavaScript -->
-+    </main>
-+
-+    <script type="module" src="script.js"></script>
-+</body>
-+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UCRIF · Sistema de Novedades</title>
+
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-800">
+    <!-- Spinner Overlay -->
+    <div id="spinner" class="fixed inset-0 z-50 flex-col items-center justify-center hidden">
+        <div class="spinner-icon w-16 h-16 border-4 border-slate-200 rounded-full animate-spin"></div>
+        <p class="mt-4 text-slate-600 font-semibold">Cargando...</p>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg/1477px-Logotipo_del_Cuerpo_Nacional_de_Polic%C3%ADa_de_Espa%C3%B1a.svg.png"
+                         alt="Logo CNP"
+                         class="h-10 w-auto bg-white p-1 rounded-md">
+                    <h1 id="header-title" class="ml-4 text-lg md:text-xl font-semibold">UCRIF · Sistema de Novedades</h1>
+                </div>
+                <button id="back-button" class="hidden bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-4 rounded-lg transition">
+                    &larr; Volver al Menú
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="py-6 md:py-10">
+        <!-- Content will be rendered here by JavaScript -->
+    </main>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
