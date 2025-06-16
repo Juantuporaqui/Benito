@@ -6,12 +6,12 @@
 //  viven en dynamicLists.js) ni la inicialización.
 // -----------------------------------------------------
 import { db }                        from '../firebase.js';
-import { appId, getUserId }         from '../main.js';
+import { appId, getUserId }         from '../state.js';
 import { collection, doc, addDoc, setDoc, getDoc, getDocs,
          query, where, serverTimestamp, Timestamp }
        from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-import { formatDate, formatDateTime,
+         showSpinner, showStatus }   from '../utils.js';
          showSpinner, showStatus }   from '../helpers/utils.js';
 
 import * as lists                    from './dynamicLists.js';
