@@ -46,7 +46,7 @@ const saveData = async (collectionName, data, docId = null) => {
         throw new Error("User not authenticated.");
     }
     try {
-        const userCol = collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`);
+        const userCol = collection(db, `artifacts/${appId}/${collectionName}`);
         if (docId) {
             await setDoc(doc(userCol, docId), { ...data, updatedAt: serverTimestamp() }, { merge: true });
             return docId;
@@ -70,7 +70,7 @@ const loadData = async (collectionName, docId) => {
         throw new Error("User not authenticated.");
     }
     try {
-        const ref = doc(db, `artifacts/${appId}/users/${userId}/${collectionName}`, docId);
+        const ref = doc(db, `artifacts/${appId}/${collectionName}`, docId);
         const snap = await getDoc(ref);
         return snap.exists() ? snap.data() : null;
     } catch (e) {
@@ -90,7 +90,7 @@ const fetchDataForSelect = async (collectionName, selectId, displayField1, displ
     sel.innerHTML = '<option value="">-- Seleccionar --</option>';
     showSpinner(true);
     try {
-        let q = collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`);
+        let q = collection(db, `artifacts/${appId}/${collectionName}`);
         if (groupFilter) {
             q = query(q, where("grupo", "==", groups[groupFilter].name));
         }
@@ -122,7 +122,7 @@ const fetchDataForSelect = async (collectionName, selectId, displayField1, displ
 const getNextCode = async (collectionName, groupName, year) => {
     if (!userId) return 1;
     const q = query(
-        collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`),
+        collection(db, `artifacts/${appId}/${collectionName}`),
         where("grupo", "==", groupName),
         where("anio", "==", year)
     );
@@ -1178,7 +1178,7 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
     const date = new Date(dateStr);
     try {
         const q = query(
-            collection(db, `artifacts/${appId}/users/${userId}/${collectionName}`),
+            collection(db, `artifacts/${appId}/${collectionName}`),
             where('fecha', '==', date)
         );
         const snaps = await getDocs(q);
@@ -1797,7 +1797,7 @@ const loadSubCollection = async (opId, subColl, listId, sortFn, renderFn) => {
     ul.innerHTML = '';
     if (!userId) return;
     try {
-        const q = query(collection(db, `artifacts/${appId}/users/${userId}/operations`, opId, subColl));
+        const q = query(collection(db, `artifacts/${appId}/operations`, opId, subColl));
         const snaps = await getDocs(q);
         let items = snaps.docs.map(d=>({ id: d.id, ...d.data() }));
         items.sort(sortFn);
@@ -1821,7 +1821,7 @@ const addRelatedItem = async (subCollName, data, listElementId, renderFunc) => {
     }
     showSpinner(true);
     try {
-        const subColRef = collection(db, `artifacts/${appId}/users/${userId}/operations`, currentDocId, subCollName);
+        const subColRef = collection(db, `artifacts/${appId}/operations`, currentDocId, subCollName);
         const docRef = await addDoc(subColRef, { ...data, createdAt: serverTimestamp() });
         const ul = document.getElementById(listElementId);
         ul.insertAdjacentHTML('beforeend', renderFunc({ id: docRef.id, ...data }));
@@ -1871,7 +1871,7 @@ const completePendingTask = async (taskId, fromOpForm = false) => {
             return;
         }
         if (fromOpForm && currentDocId) {
-            const ref = doc(db, `artifacts/${appId}/users/${userId}/operations`, currentDocId, "pendingTasks", taskId);
+            const ref = doc(db, `artifacts/${appId}/operations`, currentDocId, "pendingTasks", taskId);
             await setDoc(ref, { estado: 'Completado' }, { merge: true });
             await loadSubCollection(currentDocId, 'pendingTasks', 'pendingList', (a,b)=>new Date(a.fechaLimite)-new Date(b.fechaLimite), item => `
                 <li class="flex justify-between items-center ${new Date(item.fechaLimite)<new Date()&&item.estado!=='Completado'?'text-red-500':''}">
@@ -1886,7 +1886,7 @@ const completePendingTask = async (taskId, fromOpForm = false) => {
                 btn.addEventListener('click', ()=>completePendingTask(btn.dataset.taskId, true))
             );
         } else {
-            const ref = doc(db, `artifacts/${appId}/users/${userId}/pendingTasks`, taskId);
+            const ref = doc(db, `artifacts/${appId}/pendingTasks`, taskId);
             await setDoc(ref, { estado: 'Completado' }, { merge: true });
             fetchGlobalPendingTasks();
         }
@@ -1912,7 +1912,7 @@ const fetchGlobalPendingTasks = async () => {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-gray-500">Autenticando usuario...</td></tr>';
             return;
         }
-        const q = query(collection(db, `artifacts/${appId}/users/${userId}/pendingTasks`), where("estado","==","Pendiente"));
+        const q = query(collection(db, `artifacts/${appId}/pendingTasks`), where("estado","==","Pendiente"));
         const snaps = await getDocs(q);
         let tasks = snaps.docs.map(d=>({ id: d.id, ...d.data() }));
         tasks.sort((a,b)=>new Date(a.fechaLimite)-new Date(b.fechaLimite));
@@ -1923,7 +1923,7 @@ const fetchGlobalPendingTasks = async () => {
             let opLabel = '- General -';
             if (opId) {
                 if (!opCache[opId]) {
-                    const ref = doc(db, `artifacts/${appId}/users/${userId}/operations`, opId);
+                    const ref = doc(db, `artifacts/${appId}/operations`, opId);
                     const snapOp = await getDoc(ref);
                     if (snapOp.exists()) {
                         const od = snapOp.data();
@@ -1973,7 +1973,7 @@ const addGeneralPendingTask = async () => {
     }
     showSpinner(true);
     try {
-        await addDoc(collection(db, `artifacts/${appId}/users/${userId}/pendingTasks`), {
+        await addDoc(collection(db, `artifacts/${appId}/pendingTasks`), {
             descripcion: desc,
             fechaLimite: fecha,
             estado: 'Pendiente',
@@ -2076,7 +2076,7 @@ const generateStats = async () => {
 
         for (const colName of uniqueCols) {
             const q = query(
-                collection(db, `artifacts/${appId}/users/${userId}/${colName}`),
+                collection(db, `artifacts/${appId}/${colName}`),
                 where("fecha", ">=", sDt),
                 where("fecha", "<=", eDt)
             );
