@@ -1103,7 +1103,17 @@ const renderSpecificGroupForm = async (groupKey) => {
                 loadDocByDate(colName, dataMap, dt);
             });
         }
-    } else {
+        onst pendSel = document.getElementById('pendiente');
+        const pendDet = document.getElementById('pendienteDetalles');
+        if (pendSel && pendDet) {
+            const togglePend = () => {
+                if (pendSel.value === 'Sí') pendDet.classList.remove('hidden');
+                else pendDet.classList.add('hidden');
+            };
+            pendSel.addEventListener('change', togglePend);
+            togglePend();
+        }
+    } else {        
         const loadDocBtn = document.getElementById('loadDocBtn');
         if (loadDocBtn) {
             loadDocBtn.addEventListener('click', () => loadSpecificDoc(colName, dataMap));
