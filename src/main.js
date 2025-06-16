@@ -2,6 +2,8 @@ import { initFirebase, db, auth } from './firebase.js';
 import { signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from './utils.js';
+import { groups } from './groups.js';
+
 
 // --- Firebase Configuration ---
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -17,18 +19,8 @@ const mainContent  = () => document.getElementById('main-content');
 const headerTitle  = () => document.getElementById('header-title');
 const backButton   = () => document.getElementById('back-button');
 
-// --- Definición de grupos y colecciones asociadas ---
-const groups = {
-    'grupo1':      { name: 'Grupo 1',      description: 'Expulsiones',                icon: '🚷', collection: 'expulsiones' },
-    'grupo2':      { name: 'Grupo 2',      description: 'Investigación',              icon: '🕵️‍♂️', collection: 'operaciones' },
-    'grupo3':      { name: 'Grupo 3',      description: 'Operativo',                  icon: '👮‍♂️', collection: 'operaciones' },
-    'grupo4':      { name: 'Grupo 4',      description: 'Operativo',                  icon: '👮‍♂️', collection: 'grupo4Operaciones' },
-    'puerto':      { name: 'Puerto',       description: 'Controles y actuaciones',    icon: '⚓', collection: 'puertoControles' },
-    'cie':         { name: 'CIE',          description: 'Centro de Internamiento',    icon: '🏢', collection: 'cieInternamiento' },
-    'gestion':     { name: 'Gestión',      description: 'Asilos, cartas, trámites',   icon: '🗂️', collection: 'gestionTramites' },
-    'estadistica': { name: 'Estadística',  description: 'Datos y pendientes',         icon: '📊', collection: null },
-    'cecorex':     { name: 'CECOREX',      description: 'Centro Coordinación',        icon: '📞', collection: 'cecorexCoordinacion' }
-};
+// --- Definición de grupos y colecciones asociadas (importados de groups.js) ---
+
 
 // Hacemos accesible desde HTML:
 window.removeDynamicItem = removeDynamicItem;
@@ -716,6 +708,32 @@ const renderSpecificGroupForm = async (groupKey) => {
                 </div>
             `;
             dynamicAdders = `
+                              <h4 class="mt-6 mb-2 font-semibold">Expulsados</h4>
+                <div id="expulsadosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="expNombre" placeholder="Nombre" class="rounded border px-2 py-1">
+                    <input type="text" id="expNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
+                    <button onclick="addExpulsado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Fletados</h4>
+                <div id="fletadosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                    <input type="text" id="fletDestino" placeholder="Destino" class="rounded border px-2 py-1">
+                    <input type="number" id="fletPax" placeholder="Pax" class="rounded border px-2 py-1">
+                    <button onclick="addFletado()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Conducciones Positivas</h4>
+                <div id="conduccionesPositivasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
+                    <input type="text" id="cpDesc" placeholder="Descripción" class="rounded border px-2 py-1">
+                    <button onclick="addConduccionPositiva()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
+                <h4 class="mt-6 mb-2 font-semibold">Conducciones Negativas</h4>
+                <div id="conduccionesNegativasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
+                    <input type="text" id="cnDesc" placeholder="Descripción" class="rounded border px-2 py-1">
+                    <button onclick="addConduccionNegativa()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                </div>
                 <h4 class="mt-6 mb-2 font-semibold">Pendientes de Gestión</h4>
                 <ul id="grupoPendientesList" class="list-disc pl-5 mb-4 max-h-40 overflow-y-auto"></ul>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
@@ -731,6 +749,10 @@ const renderSpecificGroupForm = async (groupKey) => {
                 nombreActuacion: 'nombreActuacion',
                 diligenciasActuaciones: 'diligenciasActuaciones',
                 personasImplicadas: getPersonasImplicadas,
+                expulsados: getExpulsados,
+                fletados: getFletados,
+                conduccionesPositivas: getConduccionesPositivas,
+                conduccionesNegativas: getConduccionesNegativas,
                 grupoPendientes: getGrupoPendientes
             };
             break;
