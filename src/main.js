@@ -1209,7 +1209,8 @@ const renderSpecificGroupForm = async (groupKey) => {
             </div>
         </div>`;
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
+      if (groupKey === 'puerto' || groupKey === 'cecorex' ||
+        groupKey === 'grupo4' || groupKey === 'cie' || groupKey === 'grupo1') {
         searchSection = `
         <div class="bg-white p-4 rounded shadow border-blue-300 border">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -1248,8 +1249,8 @@ const renderSpecificGroupForm = async (groupKey) => {
     const newBtn  = document.getElementById('newDocBtn');
     if (newBtn) newBtn.addEventListener('click', () => resetSpecificForm(colName));
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
-        const loadDateBtn = document.getElementById('loadDateBtn');
+  if (groupKey === 'puerto' || groupKey === 'cecorex' ||
+        groupKey === 'grupo4' || groupKey === 'cie' || groupKey === 'grupo1') {        const loadDateBtn = document.getElementById('loadDateBtn');
         if (loadDateBtn) {
             loadDateBtn.addEventListener('click', () => {
                 const dt = document.getElementById('searchDate').value;
