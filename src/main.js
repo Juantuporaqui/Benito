@@ -64,7 +64,6 @@ const saveData = async (collectionName, data, docId = null) => {
         const backupCol = collection(db, 'backups', appId, collectionName, finalId);
         await setDoc(doc(backupCol, new Date().toISOString()), { ...data, backedAt: serverTimestamp() });
         return finalId;
-        }
     } catch (e) {
         console.error(`Error al guardar en ${collectionName}:`, e);
         showStatus(`Error al guardar: ${e.message}`, true);
