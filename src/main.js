@@ -665,14 +665,13 @@ const renderMenu = () => {
 const navigateTo = async (groupKey) => {
     currentGroup = groupKey;
     headerTitle().textContent = `UCRIF · ${groups[groupKey].name}`;
-   } else if (groupKey === 'resumen') {
-    renderResumen();
+ 
     backButton().classList.remove('hidden');
     currentDocId = null;
 
     if (groupKey === 'estadistica') {
         renderStatistics();
-       } else if (groupKey === 'resumen') {
+      } else if (groupKey === 'resumen') {
         renderResumen();
     } else if (groupKey === 'grupo2' || groupKey === 'grupo3') {
         await renderGroup2and3Form(groupKey);
