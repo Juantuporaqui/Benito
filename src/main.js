@@ -61,8 +61,8 @@ const saveData = async (collectionName, data, docId = null) => {
             const ref = await addDoc(userCol, { ...data, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
             finalId = ref.id;
         }
-        // Backup del documento
-        const backupCol = collection(db, 'backups', appId, collectionName, finalId);
+        // Backup del documento en subcolección "entries" para conservar un historial
+        const backupCol = collection(db, 'backups', appId, collectionName, finalId, 'entries');
         await setDoc(doc(backupCol, new Date().toISOString()), { ...data, backedAt: serverTimestamp() });
         return finalId;
     } catch (e) {
