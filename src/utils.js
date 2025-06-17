@@ -1,15 +1,23 @@
 import { Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+export const parseDate = (value) => {
+    if (!value) return null;
+    let d;
+    if (value instanceof Date) d = value;
+    else if (value instanceof Timestamp) d = value.toDate();
+    else d = new Date(value);
+    return isNaN(d) ? null : d;
+};
+
 export const formatDate = (date) => {
-    if (!date) return '';
-    const d = date instanceof Timestamp ? date.toDate() : new Date(date);
-    return d.toISOString().split('T')[0];
+    const d = parseDate(date);
+    return d ? d.toISOString().split('T')[0] : '';
 };
 
 export const formatDateTime = (date) => {
-    if (!date) return '';
-    const d = date instanceof Timestamp ? date.toDate() : new Date(date);
-    return d.toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const d = parseDate(date);
+    return d ? d.toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+
 };
 
 export const showSpinner = (show) => {
