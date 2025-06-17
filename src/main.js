@@ -2257,74 +2257,7 @@ const generateStats = async () => {
     }
 };
 
-/**
- * Genera un resumen por rango de fechas.
- */
-const generateResumen = async () => {
-    const outDiv = document.getElementById('resumenResult');
-    if (!outDiv) return;
-    outDiv.innerHTML = '';
-    const start = document.getElementById('resumenStartDate').value;
-    const end = document.getElementById('resumenEndDate').value;
-    if (!start || !end) { showStatus('Selecciona rango de fechas.', true); return; }
-    if (!userId) { showStatus('Usuario no autenticado.', true); return; }
-    showSpinner(true);
-    try {
-        const sDt = new Date(start);
-        const eDt = new Date(end); eDt.setHours(23,59,59,999);
 
-        const cols = [...new Set(Object.values(groups).filter(g=>g.collection).map(g=>g.collection))];
-        const rows = [];
-        for (const colName of cols) {
-            const q = query(collection(db, `artifacts/${appId}/${colName}`), where('fecha', '>=', sDt), where('fecha', '<=', eDt));
-            const snaps = await getDocs(q);
-            snaps.forEach(d => {
-                const data = d.data();
-                const fecha = formatDate(data.fecha);
-                const grupo = data.grupo || Object.values(groups).find(gr=>gr.collection===colName)?.name || colName;
-                const desc = data.descripcionBreve || data.nombreActuacion || data.nombreOperacion || '';
-                rows.push({ fecha, grupo, desc });
-            });
-        }
-        rows.sort((a,b)=> new Date(a.fecha) - new Date(b.fecha));
-        let tbl = `<table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th class="px-4 py-2">Fecha</th><th class="px-4 py-2">Grupo</th><th class="px-4 py-2">Descripción</th></tr></thead><tbody class="bg-white divide-y divide-gray-200">`;
-        if (rows.length===0) {
-            tbl += `<tr><td colspan="3" class="px-4 py-2 text-center text-gray-500">Sin datos</td></tr>`;
-        } else {
-            rows.forEach(r=>{ tbl += `<tr><td class="px-4 py-2">${r.fecha}</td><td class="px-4 py-2">${r.grupo}</td><td class="px-4 py-2">${r.desc}</td></tr>`; });
-        }
-        tbl += `</tbody></table>`;
-        outDiv.innerHTML = tbl;
-    } catch(e) {
-        console.error(e);
-        outDiv.innerHTML = `<p class="text-red-500">Error: ${e.message}</p>`;
-    } finally {
-        showSpinner(false);
-    }
-};
-
-/**
- * Vista de resumen por fechas.
- */
-const renderResumen = () => {
-    currentView = 'resumen';
-    const today = new Date();
-    const weekAgo = new Date(); weekAgo.setDate(today.getDate()-7);
-    const html = `
-    <div class="max-w-4xl mx-auto p-4 space-y-6">
-        <div class="bg-white p-4 rounded shadow border-blue-300 border space-y-4">
-            <h3 class="text-xl font-bold">Resumen por Fechas</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <div><label>Desde</label><input type="date" id="resumenStartDate" class="w-full rounded border px-2 py-1" value="${formatDate(weekAgo)}"></div>
-                <div><label>Hasta</label><input type="date" id="resumenEndDate" class="w-full rounded border px-2 py-1" value="${formatDate(today)}"></div>
-                <button id="resumenBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Generar Resumen</button>
-            </div>
-            <div id="resumenResult" class="overflow-x-auto mt-4"></div>
-        </div>
-    </div>`;
-    mainContent().innerHTML = html;
-    document.getElementById('resumenBtn').addEventListener('click', generateResumen);
-};
 
 /**
  * Genera un resumen por rango de fechas.
