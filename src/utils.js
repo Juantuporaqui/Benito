@@ -5,7 +5,10 @@ export function parseDate(value) {
     let d;
     if (value instanceof Date) d = value;
     else if (value instanceof Timestamp) d = value.toDate();
-    else d = new Date(value);
+       else if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        const [y, m, dNum] = value.split('-').map(Number);
+        d = new Date(y, m - 1, dNum, 0, 0, 0);
+    } else d = new Date(value);
     return isNaN(d) ? null : d;
 }
 
