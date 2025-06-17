@@ -671,7 +671,7 @@ const navigateTo = async (groupKey) => {
 
     if (groupKey === 'estadistica') {
         renderStatistics();
-      } else if (groupKey === 'resumen') {
+          } else if (groupKey === 'resumen') {
         renderResumen();
     } else if (groupKey === 'grupo2' || groupKey === 'grupo3') {
         await renderGroup2and3Form(groupKey);
@@ -1203,7 +1203,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 loadDocByDate(colName, dataMap, dt);
             });
         }
-                const pendSel = document.getElementById('pendiente');
+        const pendSel = document.getElementById('pendiente');
         const pendDet = document.getElementById('pendienteDetalles');
         if (pendSel && pendDet) {
             const togglePend = () => {
@@ -1213,8 +1213,7 @@ const renderSpecificGroupForm = async (groupKey) => {
             pendSel.addEventListener('change', togglePend);
             togglePend();
         }
-    
-            } else {        
+                } else {        
         const loadDocBtn = document.getElementById('loadDocBtn');
         if (loadDocBtn) {
             loadDocBtn.addEventListener('click', () => loadSpecificDoc(colName, dataMap));
