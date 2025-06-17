@@ -52,12 +52,18 @@ const saveData = async (collectionName, data, docId = null) => {
     }
     try {
         const userCol = collection(db, `artifacts/${appId}/${collectionName}`);
+         let finalId;
         if (docId) {
             await setDoc(doc(userCol, docId), { ...data, updatedAt: serverTimestamp() }, { merge: true });
-            return docId;
+            finalId = docId;
         } else {
             const ref = await addDoc(userCol, { ...data, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
-            return ref.id;
+            finalId = ref.id;
+        }
+        // Backup del documento
+        const backupCol = collection(db, 'backups', appId, collectionName, finalId);
+        await setDoc(doc(backupCol, new Date().toISOString()), { ...data, backedAt: serverTimestamp() });
+        return finalId;
         }
     } catch (e) {
         console.error(`Error al guardar en ${collectionName}:`, e);
@@ -1148,7 +1154,7 @@ const renderSpecificGroupForm = async (groupKey) => {
             </div>
         </div>`;
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
+        if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1' || groupKey === 'grupo4') {
         searchSection = `
         <div class="bg-white p-4 rounded shadow border-blue-300 border">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -1187,7 +1193,7 @@ const renderSpecificGroupForm = async (groupKey) => {
     const newBtn  = document.getElementById('newDocBtn');
     if (newBtn) newBtn.addEventListener('click', () => resetSpecificForm(colName));
 
-    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1') {
+    if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1' || groupKey === 'grupo4') {
         const loadDateBtn = document.getElementById('loadDateBtn');
         if (loadDateBtn) {
             loadDateBtn.addEventListener('click', () => {
