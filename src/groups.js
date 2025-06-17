@@ -7,5 +7,6 @@ export const groups = {
   cie    : { name:'CIE',     description:'Centro de Internamiento',  icon:'🏢',   collection:'cieInternamiento' },
   gestion: { name:'Gestión', description:'Asilos, cartas, trámites', icon:'🗂️',  collection:'gestionTramites' },
   estadistica:{ name:'Estadística', description:'Datos y pendientes', icon:'📊', collection:null },
+    resumen:{ name:'RESUMEN', description:'Resumen por fechas', icon:'📄', collection:null },
   cecorex:{ name:'CECOREX', description:'Centro Coordinación',       icon:'📞',   collection:'cecorexCoordinacion' }
 };
