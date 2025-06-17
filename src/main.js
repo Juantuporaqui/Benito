@@ -62,8 +62,8 @@ const saveData = async (collectionName, data, docId = null) => {
             finalId = ref.id;
         }
         // Backup del documento en subcolección "entries" para conservar un historial
-        const backupCol = collection(db, 'backups', appId, collectionName, finalId, 'entries');
-        await setDoc(doc(backupCol, new Date().toISOString()), { ...data, backedAt: serverTimestamp() });
+       const backupDoc = doc(db, 'backups', appId, collectionName, finalId);
+        const backupCol = collection(backupDoc, 'entries');        await setDoc(doc(backupCol, new Date().toISOString()), { ...data, backedAt: serverTimestamp() });
         return finalId;
     } catch (e) {
         console.error(`Error al guardar en ${collectionName}:`, e);
