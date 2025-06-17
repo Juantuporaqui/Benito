@@ -1290,8 +1290,9 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
     showSpinner(true);
 const date = parseDate(dateStr);
     if (!date) { showStatus('Fecha inválida', true); showSpinner(false); return; }
-  const start = new Date(date); start.setHours(0,0,0,0);
-    const end   = new Date(start); end.setDate(end.getDate()+1);
+   const [y, m, d] = dateStr.split('-').map(Number);
+  const start = new Date(y, m - 1, d, 0, 0, 0);
+  const end   = new Date(y, m - 1, d + 1, 0, 0, 0);
     try {
         const q = query(
             collection(db, `artifacts/${appId}/${collectionName}`),
