@@ -1,13 +1,13 @@
 import { Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-export const parseDate = (value) => {
+export function parseDate(value) {
     if (!value) return null;
     let d;
     if (value instanceof Date) d = value;
     else if (value instanceof Timestamp) d = value.toDate();
     else d = new Date(value);
     return isNaN(d) ? null : d;
-};
+}
 
 export const formatDate = (date) => {
     const d = parseDate(date);
