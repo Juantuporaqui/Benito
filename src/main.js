@@ -2382,67 +2382,6 @@ async function generateGroup1Pdf() {
     doc.save(`resumen-grupo1_${desde}_a_${hasta}.pdf`);
 }
 
-// ------------------------------------------------------
-// PDF resumen Grupo 1
-// ------------------------------------------------------
-async function generateGroup1Pdf() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const desde = document.getElementById('pdfDesde').value;
-    const hasta = document.getElementById('pdfHasta').value;
-    if (!desde || !hasta) {
-        alert('Selecciona el rango Desde/Hasta para generar el PDF.');
-        return;
-    }
-
-    const [y1,m1,d1] = desde.split('-').map(Number);
-    const [y2,m2,d2] = hasta.split('-').map(Number);
-    const start = new Date(y1, m1-1, d1, 0, 0, 0);
-    const end   = new Date(y2, m2-1, d2+1, 0, 0, 0);
-
-    const q = query(
-        collection(db, `artifacts/${appId}/expulsiones`),
-        where('fecha', '>=', start),
-        where('fecha', '<',  end)
-    );
-    const snaps = await getDocs(q);
-    if (snaps.empty) {
-        alert('No hay registros en ese rango de fechas.');
-        return;
-    }
-
-    doc.setFontSize(16);
-    doc.text('Resumen Grupo 1', 14, 20);
-    doc.setFontSize(11);
-    doc.text(`Desde: ${desde}  Hasta: ${hasta}`, 14, 28);
-
-    const rows = [];
-    snaps.docs.forEach(d => {
-        const data = d.data();
-        rows.push([
-            formatDate(data.fecha),
-            data.expulsados?.length || 0,
-            data.fletados?.length || 0,
-        ]);
-    });
-
-    if (doc.autoTable) {
-        doc.autoTable({
-            head: [['Fecha','#Expulsados','#Fletados']],
-            body: rows,
-            startY: 35,
-            theme: 'grid'
-        });
-    } else {
-        let y = 35;
-        doc.text('Fecha  | #Expulsados | #Fletados', 14, y);
-        y += 6;
-        rows.forEach(r => { doc.text(`${r[0]}  ${r[1]}  ${r[2]}`, 14, y); y+=6; });
-    }
-
-    doc.save(`resumen-grupo1_${desde}_a_${hasta}.pdf`);
-}
 
 /**
  * Vista de resumen por fechas.
