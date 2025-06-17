@@ -1104,71 +1104,7 @@ const renderSpecificGroupForm = async (groupKey) => {
         default:
             formFields = `<p class="text-gray-500">No hay formulario definido para este grupo.</p>`;
     }
-   // Sección de búsqueda/selección
-    let searchSection = `
-        <div class="bg-white p-4 rounded shadow border-blue-300 border">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <div class="md:col-span-2">
-                    <label>Buscar registro existente</label>
-                    <select id="docList" class="w-full rounded border px-2 py-1"></select>
-                </div>
-        if (snaps.empty) {
-            currentDocId = null;
-            showStatus('Sin registro para esa fecha.', true);
-            return;
-        }
-        const snap = snaps.docs[0];
-        currentDocId = snap.id;
-        const data = snap.data();
-        for (const key in dataMapping) {
-            const mp = dataMapping[key];
-            if (typeof mp === 'string') {
-                const fld = document.getElementById(mp);
-                if (!fld) continue;
-                if (fld.type === 'date') fld.value = formatDate(data[key]);
-                else fld.value = data[key] || '';
-            } else if (typeof mp === 'function') {
-                const containerMap = {
-                    personasImplicadas: 'personasImplicadasContainer',
-                                      expulsados: 'expulsadosContainer',
-                    fletados: 'fletadosContainer',
-                    conduccionesPositivas: 'conduccionesPositivasContainer',
-                    conduccionesNegativas: 'conduccionesNegativasContainer',
-                    grupoPendientes: 'grupoPendientesList',
-                    personasImplicadasG4: 'personasImplicadasG4Container',
-                    grupo4Pendientes: 'grupo4PendientesList',
-                    colaboracionesOtrosGrupos: 'colaboracionesG4Container',
-                    detenidos: 'detenidosG4Container',
-                    internosNacionalidad: 'internosNacionalidadesContainer',
-                    ingresos: 'ingresosContainer',
-                    salidas: 'salidasContainer',
-                    puertoPendientes: 'puertoPendientesList',
-                    ciePendientes: 'ciePendientesList',
-                    gestionPendientes: 'gestionPendientesList',
-                    cecorexPendientes: 'cecorexPendientesList'
-                };
-                const containerId = containerMap[key];
-                if (!containerId) continue;
-                const cont = document.getElementById(containerId);
-                if (!cont) continue;
-                cont.innerHTML = '';
-                if (data[key] && Array.isArray(data[key])) {
-                    const addFnName = 'add' + key.charAt(0).toUpperCase() + key.slice(1).replace(/s$/, '');
-                    data[key].forEach(item => { if (window[addFnName]) window[addFnName](item); });
-                }
-            }
-        }
-        showStatus('Registro cargado.', false);
-    } catch(e) {
-        console.error(e);
-        showStatus(`Error al cargar: ${e.message}`, true);
-    } finally {
-        showSpinner(false);
-    }
-};
-/**
-};
-
+   
 /**
  * Resetea el formulario simplificado.
  */
