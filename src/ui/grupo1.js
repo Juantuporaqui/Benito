@@ -11,14 +11,13 @@ import {
 import { formatDate } from '../utils.js';
 
 export function getGrupo1Config() {
-  const formHtml = `
-    <div id="form-container" class="max-w-3xl mx-auto p-6 bg-white rounded shadow space-y-6">
-      <div class="flex flex-col">
+  return {
+    formFields: `
+      <div class="mb-4">
         <label for="fecha" class="font-semibold mb-1">Fecha</label>
         <input type="date" id="fecha" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
       </div>
-
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label for="pdfDesde" class="font-semibold">Desde</label>
           <input type="date" id="pdfDesde" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
@@ -28,7 +27,9 @@ export function getGrupo1Config() {
           <input type="date" id="pdfHasta" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
         </div>
       </div>
+    `,
 
+    dynamicAdders: `
       <h4 class="font-semibold mb-2">Expulsados</h4>
       <div id="expulsadosContainer" class="space-y-2"></div>
       <div class="flex gap-2">
@@ -68,16 +69,10 @@ export function getGrupo1Config() {
       </div>
 
       <div class="text-right">
-        <button id="saveDocBtn" class="bg-green-600 text-white rounded px-6 py-2">Guardar Registro</button>
-      </div>
-      <div class="text-right">
         <button id="generatePdfBtn" class="bg-indigo-600 text-white rounded px-6 py-2">Generar Resumen PDF</button>
       </div>
-    </div>
-  `;
+    `,
 
-  return {
-    formHtml,
     dataMap: {
       fecha: 'fecha',
       expulsados: getExpulsados,
