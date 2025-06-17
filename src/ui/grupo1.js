@@ -1,33 +1,15 @@
 // src/ui/grupo1.js
 // Helpers to render Grupo 1 form pieces
 import {
-  getPersonasImplicadas,
-  getExpulsados,
+   getExpulsados,
   getFletados,
   getConduccionesPositivas,
   getConduccionesNegativas,
   getGrupoPendientes
 } from './dynamicLists.js';
 
-export function getGrupo1Config(baseFields) {
-  const formFields = `
-    ${baseFields}
-    <div class="mb-4">
-      <label for="nombreActuacion">Nombre de la Actuación</label>
-      <input type="text" id="nombreActuacion" class="w-full rounded border px-2 py-1">
-    </div>
-    <div class="mb-4">
-      <label for="diligenciasActuaciones">Diligencias/Actuaciones</label>
-      <textarea id="diligenciasActuaciones" class="w-full rounded border px-2 py-1" rows="3"></textarea>
-    </div>
-    <h4 class="mt-6 mb-2 font-semibold">Personas Implicadas</h4>
-    <div id="personasImplicadasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
-      <input type="text" id="impNombre" placeholder="Nombre" class="rounded border px-2 py-1">
-      <input type="text" id="impNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
-      <button onclick="addPersonaImplicada()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
-    </div>
-  `;
+export function getGrupo1Config() {
+  const formFields = ``;
 
   const dynamicAdders = `
     <h4 class="mt-6 mb-2 font-semibold">Expulsados</h4>
@@ -66,12 +48,6 @@ export function getGrupo1Config(baseFields) {
   `;
 
   const dataMap = {
-    fecha: 'fecha',
-    anio: 'anio',
-    descripcionBreve: 'descripcionBreve',
-    nombreActuacion: 'nombreActuacion',
-    diligenciasActuaciones: 'diligenciasActuaciones',
-    personasImplicadas: getPersonasImplicadas,
     expulsados: getExpulsados,
     fletados: getFletados,
     conduccionesPositivas: getConduccionesPositivas,
