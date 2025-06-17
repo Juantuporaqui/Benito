@@ -825,7 +825,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <div>
                         <label for="cruceros">Cruceros</label>
                         <input type="number" id="cruceros" min="0" value="0" class="w-full rounded border px-2 py-1">
-@@ -908,182 +871,237 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <textarea id="observacionesPuerto" class="w-full rounded border px-2 py-1" rows="2"></textarea>
                 </div>
                 <div class="mb-4">
@@ -1063,7 +1062,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <div>
                         <label for="ciesDenegados">CIEs denegados (por nacionalidad)</label>
                         <input type="text" id="ciesDenegados" class="w-full rounded border px-2 py-1">
-@@ -1099,52 +1117,50 @@ const renderSpecificGroupForm = async (groupKey) => {
                 </div>
                 <div class="mb-4">
                     <label for="archivoCecorex">Documentos/Imágenes</label>
@@ -1114,7 +1112,6 @@ const renderSpecificGroupForm = async (groupKey) => {
                     <label>Buscar registro existente</label>
                     <select id="docList" class="w-full rounded border px-2 py-1"></select>
                 </div>
-@@ -1300,50 +1316,55 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
         if (snaps.empty) {
             currentDocId = null;
             showStatus('Sin registro para esa fecha.', true);
@@ -1170,7 +1167,6 @@ const renderSpecificGroupForm = async (groupKey) => {
     }
 };
 /**
-@@ -1386,50 +1407,52 const saveSpecificDoc = async (collectionName, dataMapping) => {
 };
 
 /**
