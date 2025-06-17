@@ -1,7 +1,7 @@
 import { initFirebase, db, auth } from './firebase.js';
 import { signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from './utils.js';
+import { formatDate, formatDateTime, parseDate, showSpinner, showStatus, removeDynamicItem } from './utils.js';
 import { groups } from './groups.js';
 // Import dynamic list helpers so that global add*/get* functions are registered
 import {
@@ -1288,8 +1288,9 @@ const loadSpecificDoc = async (collectionName, dataMapping) => {
 const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
     if (!dateStr) return;
     showSpinner(true);
-    const date = new Date(dateStr);
-    const start = new Date(date); start.setHours(0,0,0,0);
+const date = parseDate(dateStr);
+    if (!date) { showStatus('Fecha inválida', true); showSpinner(false); return; }
+  const start = new Date(date); start.setHours(0,0,0,0);
     const end   = new Date(start); end.setDate(end.getDate()+1);
     try {
         const q = query(
@@ -1368,8 +1369,8 @@ const saveSpecificDoc = async (collectionName, dataMapping) => {
         if (typeof mp === 'string') {
             const fld = document.getElementById(mp);
             if (!fld) continue;
-            if (fld.type === 'date') docData[key] = fld.value ? new Date(fld.value) : null;
-            else docData[key] = fld.value.trim();
+ if (fld.type === 'date') docData[key] = parseDate(fld.value);
+     else docData[key] = fld.value.trim();
         } else if (typeof mp === 'function') {
             docData[key] = mp();
         }
@@ -1891,10 +1892,10 @@ const saveOperation = async (collectionName) => {
             grupo: groups[currentGroup].name,
             codigo: Number(codigo),
             anio,
-            fecha: new Date(fecha),
+            fecha: parseDate(fecha),
             nombreOperacion,
             descripcionBreve,
-            fechaInicioOperacion: fechaInicio? new Date(fechaInicio): null,
+            fechaInicioOperacion: parseDate(fechaInicio),
             origen,
             juzgadoInicial,
             tipologiaDelictiva: tipologia,
@@ -2204,8 +2205,9 @@ const generateStats = async () => {
     }
     showSpinner(true);
     try {
-        const sDt = new Date(start);
-        const eDt = new Date(end);
+           const sDt = parseDate(start);
+        const eDt = parseDate(end);
+        if (!sDt || !eDt) throw new Error('Fechas inválidas');
         eDt.setHours(23,59,59,999);
 
         // Recolectar colecciones de datos
@@ -2274,8 +2276,10 @@ const generateResumen = async () => {
     if (!userId) { showStatus('Usuario no autenticado.', true); return; }
     showSpinner(true);
     try {
-        const sDt = new Date(start);
-        const eDt = new Date(end); eDt.setHours(23,59,59,999);
+                const sDt = parseDate(start);
+        const eDt = parseDate(end);
+        if (!sDt || !eDt) throw new Error('Fechas inválidas');
+        eDt.setHours(23,59,59,999);
 
         const cols = [...new Set(Object.values(groups).filter(g=>g.collection).map(g=>g.collection))];
         const rows = [];
