@@ -11,68 +11,80 @@ import {
 import { formatDate } from '../utils.js';
 
 export function getGrupo1Config() {
-  const formFields = ``;
-
-    return {
-    formFields: `
-      <div class="mb-4">
-        <label for="fecha">Fecha</label>
-        <input
-          type="date"
-          id="fecha"
-          class="w-full rounded border px-2 py-1"
-          value="${formatDate(new Date())}"
-        >
-      </div>
-    `,
-
-    dynamicAdders: `
-      <h4 class="mt-6 mb-2 font-semibold">Expulsados</h4>
-      <div id="expulsadosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
-        <input type="text" id="expNombre" placeholder="Nombre" class="rounded border px-2 py-1">
-        <input type="text" id="expNac"    placeholder="Nacionalidad" class="rounded border px-2 py-1">
-        <button onclick="addExpulsado()"   class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+  const formHtml = `
+    <div id="form-container" class="max-w-3xl mx-auto p-6 bg-white rounded shadow space-y-6">
+      <div class="flex flex-col">
+        <label for="fecha" class="font-semibold mb-1">Fecha</label>
+        <input type="date" id="fecha" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
       </div>
 
-      <h4 class="mt-6 mb-2 font-semibold">Fletados</h4>
-      <div id="fletadosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
-        <input type="text"   id="fletDestino" placeholder="Destino" class="rounded border px-2 py-1">
-        <input type="number" id="fletPax"     placeholder="Pax"      class="rounded border px-2 py-1">
-        <button onclick="addFletado()"         class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="pdfDesde" class="font-semibold">Desde</label>
+          <input type="date" id="pdfDesde" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
+        </div>
+        <div>
+          <label for="pdfHasta" class="font-semibold">Hasta</label>
+          <input type="date" id="pdfHasta" class="border rounded px-2 py-1" value="${formatDate(new Date())}">
+        </div>
       </div>
 
-      <h4 class="mt-6 mb-2 font-semibold">Conducciones Positivas</h4>
-      <div id="conduccionesPositivasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
-        <input type="text" id="cpDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-        <button onclick="addConduccionPositiva()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+      <h4 class="font-semibold mb-2">Expulsados</h4>
+      <div id="expulsadosContainer" class="space-y-2"></div>
+      <div class="flex gap-2">
+        <input type="text" id="expNombre" placeholder="Nombre" class="flex-1 border rounded px-2 py-1">
+        <input type="text" id="expNac" placeholder="Nacionalidad" class="flex-1 border rounded px-2 py-1">
+        <button onclick="addExpulsado()" class="bg-blue-600 text-white rounded px-4">Añadir</button>
       </div>
 
-      <h4 class="mt-6 mb-2 font-semibold">Conducciones Negativas</h4>
-      <div id="conduccionesNegativasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
-        <input type="text" id="cnDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-        <button onclick="addConduccionNegativa()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+      <h4 class="font-semibold mb-2">Fletados</h4>
+      <div id="fletadosContainer" class="space-y-2"></div>
+      <div class="flex gap-2">
+        <input type="text" id="fletDestino" placeholder="Destino" class="flex-1 border rounded px-2 py-1">
+        <input type="number" id="fletPax" placeholder="Pax" class="flex-1 border rounded px-2 py-1">
+        <button onclick="addFletado()" class="bg-blue-600 text-white rounded px-4">Añadir</button>
       </div>
 
-      <h4 class="mt-6 mb-2 font-semibold">Pendientes de Gestión</h4>
-      <ul id="grupoPendientesList" class="list-disc pl-5 mb-4 max-h-40 overflow-y-auto"></ul>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-        <input type="text" id="gpPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
-        <input type="date" id="gpPendDate" class="rounded border px-2 py-1">
-        <button onclick="addGrupoPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+      <h4 class="font-semibold mb-2">Conducciones Positivas</h4>
+      <div id="conduccionesPositivasContainer" class="space-y-2"></div>
+      <div class="flex gap-2">
+        <input type="text" id="cpDesc" placeholder="Descripción" class="flex-1 border rounded px-2 py-1">
+        <button onclick="addConduccionPositiva()" class="bg-blue-600 text-white rounded px-4">Añadir</button>
       </div>
-    `,
 
+      <h4 class="font-semibold mb-2">Conducciones Negativas</h4>
+      <div id="conduccionesNegativasContainer" class="space-y-2"></div>
+      <div class="flex gap-2">
+        <input type="text" id="cnDesc" placeholder="Descripción" class="flex-1 border rounded px-2 py-1">
+        <button onclick="addConduccionNegativa()" class="bg-blue-600 text-white rounded px-4">Añadir</button>
+      </div>
+
+      <h4 class="font-semibold mb-2">Pendientes de Gestión</h4>
+      <ul id="grupoPendientesList" class="list-disc pl-5 space-y-2"></ul>
+      <div class="flex gap-2">
+        <input type="text" id="gpPendDesc" placeholder="Descripción" class="flex-1 border rounded px-2 py-1">
+        <input type="date" id="gpPendDate" class="border rounded px-2 py-1">
+        <button onclick="addGrupoPendiente()" class="bg-blue-600 text-white rounded px-4">Añadir</button>
+      </div>
+
+      <div class="text-right">
+        <button id="saveDocBtn" class="bg-green-600 text-white rounded px-6 py-2">Guardar Registro</button>
+      </div>
+      <div class="text-right">
+        <button id="generatePdfBtn" class="bg-indigo-600 text-white rounded px-6 py-2">Generar Resumen PDF</button>
+      </div>
+    </div>
+  `;
+
+  return {
+    formHtml,
     dataMap: {
       fecha: 'fecha',
       expulsados: getExpulsados,
-      fletados:   getFletados,
+      fletados: getFletados,
       conduccionesPositivas: getConduccionesPositivas,
       conduccionesNegativas: getConduccionesNegativas,
-      grupoPendientes: getGrupoPendientes
-    }
+      grupoPendientes: getGrupoPendientes,
+    },
   };
 }
