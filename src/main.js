@@ -17,6 +17,7 @@ import {
   getDetenidosG4,
 } from './ui/dynamicLists.js';
 import { getGrupo1Config } from './ui/grupo1.js';
+import { getCecorexConfig } from './ui/cecorex.js';
 
 // --- Firebase Configuration ---
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -41,6 +42,7 @@ window.removeDynamicItem = removeDynamicItem;
 // =======================
 // == FUNCIONES GENÉRICAS Firestore ==
 // =======================
+
 
 /**
  * Guarda o actualiza un documento en Firestore.
