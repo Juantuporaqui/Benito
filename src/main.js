@@ -1289,10 +1289,13 @@ const loadDocByDate = async (collectionName, dataMapping, dateStr) => {
     if (!dateStr) return;
     showSpinner(true);
     const date = new Date(dateStr);
+    const start = new Date(date); start.setHours(0,0,0,0);
+    const end   = new Date(start); end.setDate(end.getDate()+1);
     try {
         const q = query(
             collection(db, `artifacts/${appId}/${collectionName}`),
-            where('fecha', '==', date)
+            where('fecha', '>=', start),
+            where('fecha', '<',  end)
         );
         const snaps = await getDocs(q);
         await resetSpecificForm(collectionName);
