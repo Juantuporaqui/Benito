@@ -727,14 +727,14 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div id="colaboracionesG4Container" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-4">
                     <input type="text" id="colG4Desc" placeholder="Descripción" class="rounded border px-2 py-1">
-                    <button onclick="addColaboracionG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                                      <button onclick="addColaboracionG4()" class="btn-secondary">Añadir</button>
                 </div>
                 <h4 class="mt-6 mb-2 font-semibold">Detenidos</h4>
                 <div id="detenidosG4Container" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="detG4Motivo" placeholder="Motivo" class="rounded border px-2 py-1">
                     <input type="text" id="detG4Nac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
-                    <button onclick="addDetenidoG4()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addDetenidoG4()" class="btn-secondary">Añadir</button>
                 </div>
                 <div class="mb-4">
                     <label for="citados">Citados</label>
@@ -760,7 +760,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="gp4PendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="gp4PendDate" class="rounded border px-2 py-1">
-                    <button onclick="addGrupo4Pendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addGrupo4Pendiente()" class="btn-secondary">Añadir</button>
                 </div>
             `;
             dataMap = {
