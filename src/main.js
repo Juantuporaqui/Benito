@@ -711,11 +711,10 @@ const renderSpecificGroupForm = async (groupKey) => {
     switch (groupKey) {
         case 'grupo1': {
             const cfg = getGrupo1Config();
-            mainContent().innerHTML = cfg.formHtml;
-            document.getElementById('saveDocBtn').addEventListener('click', () => saveSpecificDoc(colName, cfg.dataMap));
-            document.getElementById('generatePdfBtn').addEventListener('click', generateGroup1Pdf);
-            await resetSpecificForm(colName);
-            return;
+             formFields   = cfg.formFields;
+            dynamicAdders = cfg.dynamicAdders;
+            dataMap      = cfg.dataMap;
+            break;
         }
         case 'grupo4':
             formFields = `
