@@ -1383,12 +1383,7 @@ const saveSpecificDoc = async (collectionName, dataMapping) => {
     }
     docData.grupo = groups[currentGroup].name;
     const anioField = document.getElementById('anio');
-    if (anioField) docData.anio = Number(anioField.value);
-    else docData.anio = new Date().getFullYear();
-    if (!('fecha' in docData)) docData.fecha = new Date();
-
-    if (anioField) docData.anio = Number(anioField.value);
-    else docData.anio = new Date().getFullYear();
+    docData.anio = anioField ? Number(anioField.value) : new Date().getFullYear();
     if (!('fecha' in docData)) docData.fecha = new Date();
 
     // Autogenerar código si aplica
