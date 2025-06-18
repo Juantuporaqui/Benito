@@ -50,7 +50,7 @@ function addDynamicItem(container, fields, data = {}) {
     <button type="button"
             class="bg-red-500 text-white text-xs px-3 py-1 rounded"
             onclick="removeDynamicItem(this)">Eliminar</button>`;
-  container.appendChild(wrap);
+  container.prepend(wrap);
 }
 
 function getDynamicItems(container, fields) {
