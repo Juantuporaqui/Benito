@@ -2347,28 +2347,49 @@ async function generateGroup1Pdf() {
     doc.setFontSize(11);
     doc.text(`Desde: ${desde}  Hasta: ${hasta}`, 14, 28);
 
-    const rows = [];
+      // Calcular resumen diario acumulando expulsados y fletados
+    const summary = {};
     snaps.docs.forEach(d => {
         const data = d.data();
-        rows.push([
-            formatDate(data.fecha),
-            data.expulsados?.length || 0,
-            data.fletados?.length || 0,
-        ]);
+        const dateKey = formatDate(data.fecha);
+        if (!summary[dateKey]) {
+            summary[dateKey] = { expulsados: 0, fletados: 0 };
+        }
+        summary[dateKey].expulsados += data.expulsados?.length || 0;
+        summary[dateKey].fletados += data.fletados?.length || 0;
     });
+
+    // Convertir el objeto resumen a filas para la tabla
+    const rows = Object.keys(summary)
+        .sort((a,b) => new Date(a) - new Date(b))
+        .map(fecha => [
+            fecha,
+            summary[fecha].expulsados,
+            summary[fecha].fletados
+        ]);
 
     if (doc.autoTable) {
         doc.autoTable({
-            head: [['Fecha','#Expulsados','#Fletados']],
+            head: [['Fecha', '#Expulsados', '#Fletados']],
             body: rows,
             startY: 35,
-            theme: 'grid'
+            theme: 'grid',
+            headStyles: { fillColor: [59, 130, 246], textColor: 255 }
         });
     } else {
         let y = 35;
         doc.text('Fecha  | #Expulsados | #Fletados', 14, y);
         y += 6;
         rows.forEach(r => { doc.text(`${r[0]}  ${r[1]}  ${r[2]}`, 14, y); y+=6; });
+    }
+
+    // Numerar páginas
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        doc.text(`Página ${i} de ${pageCount}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
     }
 
     doc.save(`resumen-grupo1_${desde}_a_${hasta}.pdf`);
