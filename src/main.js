@@ -1418,8 +1418,6 @@ const resetSpecificForm = async (collectionName) => {
     if (document.getElementById('fecha')) document.getElementById('fecha').value = formatDate(new Date());
     if (document.getElementById('pdfDesde')) document.getElementById('pdfDesde').value = formatDate(new Date());
     if (document.getElementById('pdfHasta')) document.getElementById('pdfHasta').value = formatDate(new Date());
-    if (document.getElementById('pdfDesde')) document.getElementById('pdfDesde').value = formatDate(new Date());
-    if (document.getElementById('pdfHasta')) document.getElementById('pdfHasta').value = formatDate(new Date());
     const pendSel = document.getElementById('pendiente');
     const pendDet = document.getElementById('pendienteDetalles');
     if (pendSel) pendSel.value = '';
