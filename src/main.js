@@ -918,21 +918,21 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="intNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                     <input type="number" id="intNum" placeholder="Número" class="rounded border px-2 py-1">
-                    <button onclick="addInternoNacionalidad()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                                       <button onclick="addInternoNacionalidad()" class="btn-secondary">Añadir</button>
                 </div>
                 <h4 class="mt-6 mb-2 font-semibold">Ingresos</h4>
                 <div id="ingresosContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="ingNac" placeholder="Nacionalidad" class="rounded border px-2 py-1">
                     <input type="number" id="ingNum" placeholder="Número" class="rounded border px-2 py-1">
-                    <button onclick="addIngreso()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addIngreso()" class="btn-secondary">Añadir</button>
                 </div>
                 <h4 class="mt-6 mb-2 font-semibold">Salidas</h4>
                 <div id="salidasContainer" class="mb-4 border rounded p-2 max-h-60 overflow-y-auto"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
                     <input type="text" id="salDestino" placeholder="Destino" class="rounded border px-2 py-1">
                     <input type="number" id="salNum" placeholder="Número" class="rounded border px-2 py-1">
-                    <button onclick="addSalida()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addSalida()" class="btn-secondary">Añadir</button>
                 </div>
                 <div class="mb-4">
                     <label for="nombrePersonaCIE">Nombre de la Persona</label>
@@ -957,7 +957,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="ciePendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="ciePendDate" class="rounded border px-2 py-1">
-                    <button onclick="addCIEPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addCIEPendiente()" class="btn-secondary">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -1030,7 +1030,7 @@ const renderSpecificGroupForm = async (groupKey) => {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="text" id="gestionPendDesc" placeholder="Descripción" class="rounded border px-2 py-1">
                     <input type="date" id="gestionPendDate" class="rounded border px-2 py-1">
-                    <button onclick="addGestionPendiente()" class="bg-gray-600 text-white px-4 py-2 rounded">Añadir</button>
+                    <button onclick="addGestionPendiente()" class="btn-secondary">Añadir</button>
                 </div>
             `;
             dataMap = {
@@ -1145,33 +1145,33 @@ const renderSpecificGroupForm = async (groupKey) => {
     }
    // Sección de búsqueda/selección
     let searchSection = `
-        <div class="bg-white p-4 rounded shadow border-blue-300 border">
+             <div class="card">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div class="md:col-span-2">
                     <label>Buscar registro existente</label>
                     <select id="docList" class="w-full rounded border px-2 py-1"></select>
                 </div>
-                <button id="loadDocBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Cargar</button>
-                <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+                <button id="loadDocBtn" class="btn-primary">Cargar</button>
+                <button id="newDocBtn" class="btn-secondary">Nuevo</button>
             </div>
         </div>`;
 
         if (groupKey === 'puerto' || groupKey === 'cecorex' || groupKey === 'grupo1' || groupKey === 'grupo4') {
         searchSection = `
-        <div class="bg-white p-4 rounded shadow border-blue-300 border">
+        <div class="card">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <div class="md:col-span-2">
                     <label>Fecha (grabar / buscar)</label>
                     <input type="date" id="searchDate" class="w-full rounded border px-2 py-1">
                 </div>
-                <button id="loadDateBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Buscar</button>
-                <button id="newDocBtn" class="bg-gray-600 text-white px-4 py-2 rounded">Nuevo</button>
+                <button id="loadDateBtn" class="btn-primary">Buscar</button>
+                <button id="newDocBtn" class="btn-secondary">Nuevo</button>
             </div>
         </div>`;
     }
 
     const formSection = `
-        <div class="bg-white p-4 rounded shadow border-blue-300 border space-y-4">
+        <div class="card space-y-4">
             <div id="status-message" class="font-semibold"></div>
             ${formFields}
             <div class="text-right">
