@@ -6,7 +6,7 @@ import {
   query, where, serverTimestamp, Timestamp
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-import { showSpinner, showStatus } from '../utils.js';
+import { showSpinner, showStatus } from './helpers.js';
 
 // ---------------------------------------------------------------------------
 // GUARDAR / CARGAR documentos principales
