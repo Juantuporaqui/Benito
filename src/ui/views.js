@@ -3,9 +3,15 @@
 import { initFirebase, db, auth } from '../firebase.js';
 import { signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
 import { collection, doc, addDoc, setDoc, getDoc, getDocs, query, where, serverTimestamp, Timestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-import { formatDate, formatDateTime, showSpinner, showStatus, removeDynamicItem } from '../utils.js';
+import {
+  formatDate,
+  formatDateTime,
+  showSpinner,
+  showStatus,
+  removeDynamicItem
+} from '../modules/helpers.js';
 import * as lists from './dynamicLists.js';
-import { fetchDataForSelect, saveData, loadData, getNextCode, loadSubCollection, addRelatedItem, completePendingTask, fetchGlobalPendingTasks } from '../services/firestoreService.js';
+import { fetchDataForSelect, saveData, loadData, getNextCode, loadSubCollection, addRelatedItem, completePendingTask, fetchGlobalPendingTasks } from '../modules/firebaseService.js';
 import { appId, userId } from '../state.js';
 import { groups } from '../groups.js';
 
