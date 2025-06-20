@@ -8,7 +8,7 @@ import {
   getGrupoPendientes
 } from './dynamicLists.js';
 
-import { formatDate } from '../utils.js';
+import { formatDate } from '../modules/helpers.js';
 
 export function getGrupo1Config() {
   return {
