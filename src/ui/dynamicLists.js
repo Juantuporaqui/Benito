@@ -2,77 +2,20 @@
 //------------------------------------------------------
 //  Helpers para listas dinámicas (add*/get*)
 //------------------------------------------------------
-import { formatDate, removeDynamicItem } from '../utils.js';
-
+import {
+  formatDate,
+  removeDynamicItem,
+  addDynamicItem,
+  getDynamicItems
+} from '../modules/helpers.js';
 // Dejo removeDynamicItem accesible para los botones “Eliminar”
 window.removeDynamicItem = removeDynamicItem;
 
 /* ═════════════════════════════════════════════════════
    Genéricos
    ════════════════════════════════════════════════════ */
-function addDynamicItem(container, fields, data = {}) {
-  const wrap = document.createElement('div');
-  wrap.className = 'dynamic-list-item flex flex-wrap gap-3 mb-2';
 
-  let html = '';
-  fields.forEach((f) => {
-    const value = data[f.valueField] ?? '';
-    const display = f.type === 'date' ? formatDate(value) : value;
-
-    let input;
-    if (f.type === 'textarea') {
-      input = `<textarea rows="${f.rows ?? 2}"
-                         class="${f.idPrefix}-item w-full px-2 py-1 border rounded"
-                         placeholder="${f.placeholder ?? ''}">${display}</textarea>`;
-    } else if (f.type === 'select') {
-      input =
-        `<select class="${f.idPrefix}-item w-full px-2 py-1 border rounded">` +
-        f.options
-          .map((o) => `<option ${o === display ? 'selected' : ''}>${o}</option>`)
-          .join('') +
-        `</select>`;
-    } else {
-      input = `<input type="${f.type ?? 'text'}"
-                      class="${f.idPrefix}-item w-full px-2 py-1 border rounded"
-                      value="${display}"
-                      placeholder="${f.placeholder ?? ''}">`;
-    }
-
-    html += `
-      <div class="flex-1 min-w-[120px] ${f.colSpan ? `md:col-span-${f.colSpan}` : ''}">
-        <label class="block text-gray-700 text-xs font-medium mb-1">${f.label}:</label>
-        ${input}
-      </div>`;
-  });
-
-  wrap.innerHTML = `
-    ${html}
-    <button type="button"
-            class="bg-red-500 text-white text-xs px-3 py-1 rounded"
-            onclick="removeDynamicItem(this)">Eliminar</button>`;
-  container.prepend(wrap);
-}
-
-function getDynamicItems(container, fields) {
-  const out = [];
-  container.querySelectorAll('.dynamic-list-item').forEach((wrap) => {
-    const obj = {};
-    let empty = true;
-    fields.forEach((f) => {
-      const sel =
-        f.type === 'textarea'
-          ? `textarea.${f.idPrefix}-item`
-          : f.type === 'select'
-          ? `select.${f.idPrefix}-item`
-          : `input.${f.idPrefix}-item`;
-      const el = wrap.querySelector(sel);
-      obj[f.valueField] = (el?.value ?? '').trim();
-      if (obj[f.valueField]) empty = false;
-    });
-    if (!empty) out.push(obj);
-  });
-  return out;
-}
+  
 
 /* ═════════════════════════════════════════════════════
    Factoría: genera pares add y get con muy poco código
